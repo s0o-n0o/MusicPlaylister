@@ -1,0 +1,17 @@
+{% extends 'music/index.html' %}
+{% block content%}
+    <!-- Content here -->
+        <div class="container-fluid">
+        <form method='POST'> {% csrf_token %}
+        <div class="col-md-6 form-group">
+            <label class='text-white'>アーティスト</label>
+            <input type="text" class="form-control " placeholder="アーティスト名を入力" name="artist">
+            <label class='text-white'>プレイリスト名</label>
+            <input type="text" class="form-control " placeholder="プレイリスト名を入力" name="playlist_name">
+        </div>
+        <div class="d-flex justify-content-left">
+        <button type="submit" class="btn btn-success text-white"">作成する </button>
+        </div>
+        </div>
+        </form>
+{% endblock content%}
