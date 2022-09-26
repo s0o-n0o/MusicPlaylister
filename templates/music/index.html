@@ -23,7 +23,9 @@
   <h1 class="d-block p-2 text-bg-dark ">MusicPlayLister</h1>
   <header class =" p-1 ">
     <div class="d-flex justify-content-left">
+      <a type="submit" class="ms-1 btn btn-success" href="https://open.spotify.com/"> spotify</a>
       <a type="submit" class="ms-1 btn btn-success" href="{% url 'music_app:home' %}"> home</a>
+      <a type="submit" class="ms-1 btn btn-success" href="{% url 'music_app:login' %}"> login</a>
       <a type="submit" class="ms-1 btn btn-success" href="{% url 'music_app:create' %}"> +create</a>
     </div>
   </header>
