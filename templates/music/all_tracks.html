@@ -1,0 +1,22 @@
+{% extends 'music/index.html'%}
+{% block content%}
+
+    <table class="table table-dark">
+    <thead>
+        <tr>
+        <th scope="col"  style="width: 2%">#</th>
+        <th scope="col">track_name</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for favorite_track_name  in favorite_tracks %}
+    <tr class="table-active">
+        <td>{{forloop.counter}}</td> 
+        <td>{{favorite_track_name}}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+
+
+{% endblock%}
