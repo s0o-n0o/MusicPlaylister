@@ -1,16 +1,17 @@
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 import pprint
-
-client_id = '82352952d43e4c0e8edde1b08667a646'
-client_secret = '4a4cfaca9d2446e78ea14f0a81e21349'
+import os
+client_id = os.environ["SPOTIPY_CLIENT_ID"]
+client_secret = os.environ["SPOTIPY_SECRET_ID"]
+redirect_uri = os.environ["SPOTIPY_REDIRECT_URI"]
 
 
 def get_playlist() -> dict:
     scope = "playlist-modify-public "
     sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=client_id,
                                                    client_secret=client_secret,
-                                                   redirect_uri="http://127.0.0.1:8080/callback", scope=scope))
+                                                   redirect_uri=redirect_uri, scope=scope))
     user_id = sp.me()['id']
     user_playlist_info = sp.user_playlists(user=user_id)
     playlists_info = {}

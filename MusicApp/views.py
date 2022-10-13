@@ -25,7 +25,7 @@ def create(request):
         artist_list = request.POST.getlist("artist")
         playlist_name = request.POST["playlist_name"]
         create_playlist(artist_list=artist_list, playlist_name=playlist_name)
-        return HttpResponseRedirect('/music_app/')
+        return HttpResponseRedirect('/home')
     
     return render(request, "music/create.html")
 
