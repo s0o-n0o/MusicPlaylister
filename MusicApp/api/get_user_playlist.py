@@ -2,9 +2,11 @@ import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 import pprint
 import os
-client_id = os.environ["SPOTIPY_CLIENT_ID"]
-client_secret = os.environ["SPOTIPY_SECRET_ID"]
-redirect_uri = os.environ["SPOTIPY_REDIRECT_URI"]
+import info
+
+client_id = info.SPOTIPY_CLIENTID
+client_secret = info.SPOTIPY_SECRET
+redirect_uri = info.SPOTIPY_SECRET
 
 
 def get_playlist() -> dict:
@@ -27,7 +29,7 @@ def get_all_saved_tracks(limit_step=50) -> list:
     scope = "playlist-modify-public user-library-read"
     sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=client_id,
                                                    client_secret=client_secret,
-                                                   redirect_uri="http://127.0.0.1:8080/callback", scope=scope))
+                                                   redirect_uri=redirect_uri, scope=scope))
     tracks = []
     for offset in range(0, 1000, limit_step):
         response = sp.current_user_saved_tracks(
@@ -45,7 +47,7 @@ def playlist_tracks(playlist_id='UP') -> list:
     scope = "playlist-modify-public user-library-read"
     sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=client_id,
                                                    client_secret=client_secret,
-                                                   redirect_uri="http://127.0.0.1:8080/callback", scope=scope))
+                                                   redirect_uri=redirect_uri, scope=scope))
     playlist = []
     playlist_tracks = sp.playlist_items(playlist_id=playlist_id)
     for i in range(len(playlist_tracks['items'])):

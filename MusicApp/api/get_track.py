@@ -1,13 +1,15 @@
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 import pprint
+import os
+import info
 
-client_id = '82352952d43e4c0e8edde1b08667a646'
-client_secret = '4a4cfaca9d2446e78ea14f0a81e21349'
-client_credentials_manager = spotipy.oauth2.SpotifyClientCredentials(
-    client_id=client_id, client_secret=client_secret, )
+client_id = info.SPOTIPY_CLIENTID
+client_secret = info.SPOTIPY_SECRET
+redirect_uri = info.SPOTIPY_SECRET
+
+client_credentials_manager = spotipy.oauth2.SpotifyClientCredentials(client_id=client_id, client_secret=client_secret)
 spotify = spotipy.Spotify(auth_manager=client_credentials_manager)
-
 
 def search_artist_id(artist) -> dict:
     result_search = spotify.search(
