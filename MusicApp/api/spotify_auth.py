@@ -1,24 +1,16 @@
 import sys
 import spotipy
 import spotipy.util as util
-import info
-scope = 'user-library-read'
+from . import info
 
-# if len(sys.argv) > 1:
-#     username = sys.argv[1]
-# else:
-#     print("Usage: %s username" % (sys.argv[0],))
-#     sys.exit()
-# cledential = spotipy.SpotifyClientCredentials(client_id=info.SPOTIPY_CLIENTID,client_secret=info.SPOTIPY_SECRET)
+scope=("user-read-playback-position user-read-private user-read-email playlist-modify-public playlist-modify-private playlist-read-public playlist-read-private user-library-read user-library-modify user-top-read playlist-read-collaborative ugc-image-upload user-follow-read user-follow-modify user-read-playback-state user-modify-playback-state user-read-currently-playing user-read-recently-played")
 
-token = util.prompt_for_user_token(username="lcl", scope= scope,client_id=info.SPOTIPY_CLIENTID,client_secret=info.SPOTIPY_SECRET,redirect_uri=info.SPOTIPY_REDIRECTURI)
-
-if token:
-    sp = spotipy.Spotify(auth=token)
-    print(sp.me())
-    results = sp.current_user_saved_tracks()
-    for item in results['items']:
-        track = item['track']
-        print(track['name'] + ' - ' + track['artists'][0]['name'])
-# else:
-#     print("Can't get token for", username)
+def token(username,scope):
+    if scope :
+        token= util.prompt_for_user_token(username=username, scope=scope, client_id=info.SPOTIPY_CLIENTID,client_secret=info.SPOTIPY_SECRET,redirect_uri=info.SPOTIPY_REDIRECTURI)
+        sp = spotipy.Spotify(auth=token)
+        return sp
+    else:
+        token= util.prompt_for_user_token(username=username, scope=None, client_id=info.SPOTIPY_CLIENTID,client_secret=info.SPOTIPY_SECRET,redirect_uri=info.SPOTIPY_REDIRECTURI)
+        sp = spotipy.Spotify(auth=token)
+        return sp

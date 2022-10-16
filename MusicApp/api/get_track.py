@@ -2,20 +2,14 @@ import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 import pprint
 import os
-import info
-
-client_id = info.SPOTIPY_CLIENTID
-client_secret = info.SPOTIPY_SECRET
-redirect_uri = info.SPOTIPY_SECRET
+from .spotify_auth import token
 
 
 
 class GetTrack(object):
 
-    def __init__(self) -> None:
-        client_credentials_manager = spotipy.oauth2.SpotifyClientCredentials(client_id=client_id, client_secret=client_secret)
-        self.spotify = spotipy.Spotify(auth_manager=client_credentials_manager,language="ja")
-
+    def __init__(self,username):
+        self.spotify = token(username=username,scope=None)
 
     # 指定したアーティストのidを返す
     def search_artist_id(self,artist) -> str:
@@ -34,7 +28,8 @@ class GetTrack(object):
             tracklist[track['name']] = track['uri']
         return tracklist
 
-
+# get_track = GetTrack(username="lcl").search_artist_id("vaundy")
+# print(get_track)
 
 # test
 # search_artist_id("マカロニえんぴつ")
