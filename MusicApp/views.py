@@ -8,11 +8,11 @@ from .api.user_playlist import Playlist
 
 def login(request):
     if request.method == 'POST':
-        global username, playlist 
+        global playlist 
         username = request.POST["user_name"]
         emailaddress = request.POST["email_address"]
         playlist = Playlist(username=username)
-        return render(request,"music/home.html")
+        return HttpResponseRedirect('/home')
     return render(request, 'music/login.html')
 
 def home(request):
