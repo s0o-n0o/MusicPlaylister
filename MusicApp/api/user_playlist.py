@@ -41,7 +41,7 @@ class Playlist(GetTrack):
         return tracks
 
 
-    def playlist_tracks(self,playlist_id='UP') -> list:
+    def playlist_tracks(self,playlist_id) -> list:
         playlist = []
         playlist_tracks = self.spotify.playlist_items(playlist_id=playlist_id)
         for i in range(len(playlist_tracks['items'])):
@@ -51,3 +51,4 @@ class Playlist(GetTrack):
                 playlist_track = playlist_tracks['items'][i]['track']['name']
                 playlist.append(playlist_track)
         return playlist
+        
