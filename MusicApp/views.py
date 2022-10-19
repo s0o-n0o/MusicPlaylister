@@ -10,7 +10,7 @@ def login(request):
     if request.method == 'POST':
         global playlist 
         username = request.POST["user_name"]
-        emailaddress = request.POST["email_address"]
+        email = request.POST["email_address"]
         playlist = Playlist(username=username)
         return HttpResponseRedirect('/home')
     return render(request, 'music/login.html')
@@ -36,12 +36,13 @@ def get_user_tracks(request):
         'favorite_tracks':favorite_tracks,
     })
 
-
 def get_playlist_tracks(request,id):
     playlist_id = id
-    playlist = playlist.playlist_tracks(playlist_id=playlist_id)
+    playlist_tracks = playlist.playlist_tracks(playlist_id=playlist_id)
     return render(request, 'music/playlist_tracks.html',context={
-        'playlist':playlist,
+        'playlist':playlist_tracks,
     })
-
-
+# playlist.playlist_tracks()
+def logout(request):
+    del playlist
+    return HttpResponseRedirect("")
