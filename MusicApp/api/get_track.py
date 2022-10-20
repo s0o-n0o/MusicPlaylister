@@ -1,11 +1,5 @@
-import spotipy
-from spotipy.oauth2 import SpotifyClientCredentials
-import pprint
-import os
 from .spotify_auth import token
 # from spotify_auth import token
-
-
 
 class GetTrack(object):
 
@@ -18,10 +12,9 @@ class GetTrack(object):
             q=artist, type="artist", limit=5)  # get artist_info
         artist_id = result_search["artists"]["items"][0]["id"]
         return artist_id
-        # track_top10_list = self.get_artist_top_track(artist_id=artist_id)
-        # return track_top10_list
 
-    #
+
+    #アーティストの人気の10曲を取得
     def get_artist_top_track(self,artist_id) -> dict:
         result = self.spotify.artist_top_tracks(artist_id)
         tracklist = {}

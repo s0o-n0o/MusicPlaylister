@@ -1,21 +1,24 @@
 {% extends 'music/index.html'%}
 {% block content%}
-<h1 class= 'ms-2'>   Your Playlist</h1>
+<h1 class= 'ms-2'>   Your All Playlist Tracks </h1>
     <table class="table table-hover table-dark ">
     <thead>
         <tr>
         <th scope="col"  style="width: 3%">#</th>
         <th scope="col" style="width: 20%">track_name</th>
-        <th scope="col" style="width: 90%">artist_name</th>
+        <th scope="col" style="width: 90%">playlist_name</th>
+        <th scope="col" style="width: 90%">feature</th>
         </tr>
     </thead>
     <tbody>
-    {% for track,artist in playlist_tracks.items %}
+    {% for  playlist_name,tracks in user_alltracks.items %}
+        {% for track in tracks %}
     <tr class="table-active">
-        <td>{{forloop.counter}}.</td> 
+        <td>{{forloop.parentloop.counter}}-{{forloop.counter}}</td> 
         <td>{{track}}</td>
-        <td>{{artist}}</td>
+        <td>{{playlist_name}}</td>
     </tr>
+        {% endfor%}
     {% endfor %}
     </tbody>
     </table>

@@ -6,6 +6,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from .api.user_playlist import Playlist
 
+
 def login(request):
     if request.method == 'POST':
         global playlist 
@@ -15,11 +16,13 @@ def login(request):
         return HttpResponseRedirect('/home')
     return render(request, 'music/login.html')
 
+
 def home(request):
     playlists = playlist.get_playlist()
     return render(request, 'music/home.html',context={
         "playlists":playlists ,#dict
     })
+
 
 def create(request):
     if request.method == "POST":
@@ -27,22 +30,41 @@ def create(request):
         playlist_name = request.POST["playlist_name"]
         playlist.create_playlist(artist_list=artist_list, playlist_name=playlist_name)
         return HttpResponseRedirect('/home')
-    
     return render(request, "music/create.html")
 
-def get_user_tracks(request):
+
+def get_user_favorite_tracks(request):
     favorite_tracks =playlist.get_all_saved_tracks() #お気に入りの全曲
-    return render(request,'music/all_tracks.html',context={
+    return render(request,'music/favorite_tracks.html',context={
         'favorite_tracks':favorite_tracks,
     })
+
 
 def get_playlist_tracks(request,id):
     playlist_id = id
     playlist_tracks = playlist.playlist_tracks(playlist_id=playlist_id)
     return render(request, 'music/playlist_tracks.html',context={
-        'playlist':playlist_tracks,
+        'playlist_tracks':playlist_tracks,
+
     })
+
+
 # playlist.playlist_tracks()
 def logout(request):
     del playlist
     return HttpResponseRedirect("")
+
+def user_alltracks(request):
+    user_alltracks =playlist.user_all_tracks()
+    items = []
+    # playlist_names = list(user_alltracks.keys())
+    # playlist_items = list(user_alltracks.values())
+    # for i in playlist_items:
+    #     for item in i:
+    #         items.append(item)
+    return render(request,'music/user_all_tracks.html',context={
+        'user_alltracks':user_alltracks,
+        # 'playlist_names':playlist_names,
+        # 'playlist_items':items,
+    })
+
