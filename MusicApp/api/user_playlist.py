@@ -10,7 +10,7 @@ class Playlist(GetTrack):
     def create_playlist(self,artist_list, playlist_name):
         user_id = self.spotify.me()['id']  # get user_id
         playlists = self.spotify.user_playlist_create(user_id, playlist_name)  # create playlist
-        playlist_id = playlists["id"]
+        playlist_id = playlists["id"] #get playlist_id
         for artist in artist_list:
             if artist=='':
                 break
@@ -40,27 +40,28 @@ class Playlist(GetTrack):
         return playlists_info
 
     #プレイリスト内の全曲取得
-    def playlist_tracks(self,playlist_id) -> dict:
-        playlist =[]
+    def playlist_tracks(self,playlist_id) -> list:
+        info = []
         track_info ={}
         playlist_tracks = self.spotify.playlist_items(playlist_id=playlist_id)
         for i in range(len(playlist_tracks['items'])):
             if playlist_tracks['items'][i]['track'] == None:
                 continue
             else:
-                playlist_track = playlist_tracks['items'][i]['track']['name']
-                playlist_track_artist = playlist_tracks['items'][i]['track']['artists'][0]['name']
-                track_info[playlist_track] = playlist_track_artist
-                # playlist.append(playlist_track)
-        # print(playlist)
-            #{artist:track_name,artist:track_name}
+                playlist_track = playlist_tracks['items'][i]['track']['name'] #トラック名取得
+                playlist_track_artist = playlist_tracks['items'][i]['track']['artists'][0]['name'] # artist名取得
+                playlist_track_id = playlist_tracks['items'][i]['track']['id'] #id取得
+                track_info[playlist_track] = {"id":playlist_track_id,'artist':playlist_track_artist}
+                info.append(track_info)
+        print(info)
+        #[ { name; {id:id,artist:artist} , {name:{id:id,artist:artist}} ,...} ]
         return track_info
-        
+
     #ユーザのプレイリスト内にある全曲
     def user_all_tracks(self) -> dict:
         all_tracks = {}
         playlist= self.get_playlist()
         for playlist_name,playlist_id in playlist.items():
             all_tracks[playlist_name] = self.playlist_tracks(playlist_id=playlist_id)
-        #{playlist_name:[track,track,...]}
+        # {"playlist":[{ name; {id:id,artist:artist}} ,{name:{id:id,artist:artist} ,...}], [{name; {id:id,artist:artist} ,{id:id,artist:artist} ,...}]}
         return all_tracks
