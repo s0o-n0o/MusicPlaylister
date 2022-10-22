@@ -43,6 +43,7 @@ def get_user_favorite_tracks(request):
 def get_playlist_tracks(request,id):
     playlist_id = id
     playlist_tracks = playlist.playlist_tracks(playlist_id=playlist_id)
+    # print(playlist_tracks)
         #[ { name; {id:id,artist:artist} , {id:id,artist:artist} ,...} ]
     return render(request, 'music/playlist_tracks.html',context={
         'playlist_tracks':playlist_tracks,
@@ -57,6 +58,7 @@ def logout(request):
 def user_alltracks(request):
     # {"playlist":[{ name; {id:id,artist:artist} , {name:{id:id,artist:artist}} ,...}]}
     user_alltracks =playlist.user_all_tracks()
+    print(user_alltracks)
     return render(request,'music/user_all_tracks.html',context={
         'user_alltracks':user_alltracks,
 

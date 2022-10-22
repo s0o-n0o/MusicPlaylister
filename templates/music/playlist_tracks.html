@@ -11,7 +11,7 @@
     </thead>
     <tbody>
         {% comment %} #[ { name; {id:id,artist:artist}} ,{name:{id:id,artist:artist}} ,...} ] {% endcomment %}
-    {% for track in playlist_tracks %}
+    {% for track  in playlist_tracks %}
         {% for name,info in track.items %}
             <tr class="table-active">
                 <td>{{forloop.counter}}.</td> 

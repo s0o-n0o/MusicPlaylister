@@ -15,12 +15,12 @@
 {% comment %} # {"playlist":[{ name; {id:id,artist:artist} , {name:{id:id,artist:artist}} ,...}]} {% endcomment %}
     {% for  playlist_name,tracks in user_alltracks.items %}
         <td>{{playlist_name}}</td>
-        {% for track in tracks %}
-            {% for name,info in track.items %}
+        {% for info in tracks %}
+            {% for name,value in info.items %}
                 <tr class="table-active">
-                    <td>{{forloop.counter}} </td> 
+                    <td>{{forloop.counter}}</td> 
                     <td>{{name}}</td>
-                    <td>{{info.artist}}</td>
+                    <td>{{value.artist}}</td>
                 </tr>
             {% endfor%}
         {% endfor%}

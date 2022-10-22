@@ -44,6 +44,7 @@ class Playlist(GetTrack):
         info = []
         track_info ={}
         playlist_tracks = self.spotify.playlist_items(playlist_id=playlist_id)
+        # print(len(playlist_tracks['items']))
         for i in range(len(playlist_tracks['items'])):
             if playlist_tracks['items'][i]['track'] == None:
                 continue
@@ -52,10 +53,11 @@ class Playlist(GetTrack):
                 playlist_track_artist = playlist_tracks['items'][i]['track']['artists'][0]['name'] # artist名取得
                 playlist_track_id = playlist_tracks['items'][i]['track']['id'] #id取得
                 track_info[playlist_track] = {"id":playlist_track_id,'artist':playlist_track_artist}
-                info.append(track_info)
-        print(info)
+                
+        info.append(track_info)
+        # print(info)
         #[ { name; {id:id,artist:artist} , {name:{id:id,artist:artist}} ,...} ]
-        return track_info
+        return info
 
     #ユーザのプレイリスト内にある全曲
     def user_all_tracks(self) -> dict:
