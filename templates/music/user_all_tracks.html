@@ -4,20 +4,25 @@
     <table class="table table-hover table-dark ">
     <thead>
         <tr>
-        <th scope="col"  style="width: 3%">#</th>
-        <th scope="col" style="width: 20%">track_name</th>
-        <th scope="col" style="width: 90%">playlist_name</th>
+        {% comment %} <th scope="col"  style="width: 3%">#</th> {% endcomment %}
+        <th scope="col" style="width: 15%">playlist_name</th>
+        <th scope="col" style="width: 25%">track_name</th>
+        <th scope="col" style="width: 20%">artist_name</th>
         <th scope="col" style="width: 90%">feature</th>
         </tr>
     </thead>
     <tbody>
+{% comment %} # {"playlist":[{ name; {id:id,artist:artist} , {name:{id:id,artist:artist}} ,...}]} {% endcomment %}
     {% for  playlist_name,tracks in user_alltracks.items %}
-        {% for track in tracks %}
-    <tr class="table-active">
-        <td>{{forloop.parentloop.counter}}-{{forloop.counter}}</td> 
-        <td>{{track}}</td>
         <td>{{playlist_name}}</td>
-    </tr>
+        {% for info in tracks %}
+            {% for name,value in info.items %}
+                <tr class="table-active">
+                    <td>{{forloop.counter}}</td> 
+                    <td>{{name}}</td>
+                    <td>{{value.artist}}</td>
+                </tr>
+            {% endfor%}
         {% endfor%}
     {% endfor %}
     </tbody>

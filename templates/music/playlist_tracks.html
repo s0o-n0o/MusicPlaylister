@@ -10,12 +10,15 @@
         </tr>
     </thead>
     <tbody>
-    {% for track,artist in playlist_tracks.items %}
-    <tr class="table-active">
-        <td>{{forloop.counter}}.</td> 
-        <td>{{track}}</td>
-        <td>{{artist}}</td>
-    </tr>
+        {% comment %} #[ { name; {id:id,artist:artist}} ,{name:{id:id,artist:artist}} ,...} ] {% endcomment %}
+    {% for track  in playlist_tracks %}
+        {% for name,info in track.items %}
+            <tr class="table-active">
+                <td>{{forloop.counter}}.</td> 
+                <td>{{name}}</td>
+                <td>{{info.artist}}</td>
+            </tr>
+        {% endfor %}
     {% endfor %}
     </tbody>
     </table>
