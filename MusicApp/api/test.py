@@ -9,7 +9,15 @@ token= util.prompt_for_user_token(username="lcl", scope="playlist-modify-public 
 sp = spotipy.Spotify(auth=token)
 user_id =sp.me()['id']
 user_playlist_info = sp.user_playlists(user=user_id)['items']
-pprint(user_playlist_info)
+# pprint(user_playlist_info)
+tracks = sp.user_playlist_tracks(playlist_id="01ujVQzL0iEUVDafFXBJe9")
+# pprint(tracks['items'])
+features = sp.audio_features(tracks='4b6txnDj8rrMgw3gXlFP6x')
+for i in range(len(features)):
+    feature = {"danceability":features[i]["danceability"], "energy":features[i]["energy"],"valence": features[i]["valence"]}
+    max_feature = max(feature,key=feature.get)
+pprint(features)
+pprint(max_feature)
 # playlists_info = {}
 # all_tracks={}
 

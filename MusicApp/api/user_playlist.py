@@ -52,8 +52,8 @@ class Playlist(GetTrack):
                 playlist_track = playlist_tracks['items'][i]['track']['name'] #トラック名取得
                 playlist_track_artist = playlist_tracks['items'][i]['track']['artists'][0]['name'] # artist名取得
                 playlist_track_id = playlist_tracks['items'][i]['track']['id'] #id取得
-                track_info[playlist_track] = {"id":playlist_track_id,'artist':playlist_track_artist}
-                
+                playlist_track_feature = self.get_track_feature(playlist_track,playlist_track_id)[playlist_track_id]
+                track_info[playlist_track] = {"id":playlist_track_id,'artist':playlist_track_artist,'feature':playlist_track_feature}
         info.append(track_info)
         # print(info)
         #[ { name; {id:id,artist:artist} , {name:{id:id,artist:artist}} ,...} ]

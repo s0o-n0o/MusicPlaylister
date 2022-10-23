@@ -1,3 +1,6 @@
+from decimal import MAX_EMAX
+from distutils.archive_util import make_archive
+from pprint import pprint
 from .spotify_auth import token
 # from spotify_auth import token
 
@@ -21,6 +24,24 @@ class GetTrack(object):
         for track in result["tracks"]:
             tracklist[track['name']] = track['uri']
         return tracklist
+
+    def get_track_feature(self,track_name,track_id):
+        features = self.spotify.audio_features(tracks=track_id)
+        feature_list = {}
+        # print(features)
+        for i in range(len(features)):
+            feature = {"danceability": features[i]["danceability"],"energy":features[i]["energy"],"valence": features[i]["valence"]}
+            pprint(f"{track_name}:{feature}")
+            max_feature = max(feature,key=feature.get)
+            feature_list[track_id] = max_feature
+        return feature_list
+            
+
+            
+
+
+
+
 
 # get_track = GetTrack(username="lcl").search_artist_id("vaundy")
 # print(get_track)

@@ -7,6 +7,7 @@
         <th scope="col"  style="width: 3%">#</th>
         <th scope="col" style="width: 20%">track_name</th>
         <th scope="col" style="width: 90%">artist_name</th>
+        <th scope="col" style="width: 90%">feature</th>
         </tr>
     </thead>
     <tbody>
@@ -17,6 +18,7 @@
                 <td>{{forloop.counter}}.</td> 
                 <td>{{name}}</td>
                 <td>{{info.artist}}</td>
+                <td>{{info.feature}}</td>
             </tr>
         {% endfor %}
     {% endfor %}
