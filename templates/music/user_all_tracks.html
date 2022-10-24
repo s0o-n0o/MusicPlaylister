@@ -8,7 +8,12 @@
         <th scope="col" style="width: 15%">playlist_name</th>
         <th scope="col" style="width: 25%">track_name</th>
         <th scope="col" style="width: 20%">artist_name</th>
-        <th scope="col" style="width: 90%">feature</th>
+        <th scope="col" style="width: 30%">acoustickness</th>
+        <th scope="col" style="width: 30%">danceability</th>
+        <th scope="col" style="width: 30%">energy</th>
+        <th scope="col" style="width: 30%">valence</th>
+        <th scope="col" style="width: 30%">loudness</th>
+        <th scope="col" style="width: 90%">tempo</th>
         </tr>
     </thead>
     <tbody>
@@ -21,10 +26,15 @@
                     <td>{{forloop.counter}}</td> 
                     <td>{{name}}</td>
                     <td>{{value.artist}}</td>
-                    <td>{{value.feature}}</td>
+                    <td>{{value.feature.acousticness}}</td>
+                    <td>{{value.feature.danceability}}</td>
+                    <td>{{value.feature.energy}}</td>
+                    <td>{{value.feature.valence}}</td>
+                    <td>{{value.feature.loudness}}</td>
+                    <td>{{value.feature.tempo}}</td>
                 </tr>
-            {% endfor%}
-        {% endfor%}
+            {% endfor %}
+        {% endfor %}
     {% endfor %}
     </tbody>
     </table>

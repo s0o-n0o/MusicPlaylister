@@ -13,3 +13,4 @@ def token(username,scope):
         token= util.prompt_for_user_token(username=username, scope=scope, client_id=info.SPOTIPY_CLIENTID,client_secret=info.SPOTIPY_SECRET,redirect_uri=info.SPOTIPY_REDIRECTURI)
         sp = spotipy.Spotify(auth=token)
         return sp
+        
