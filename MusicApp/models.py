@@ -3,6 +3,7 @@ from django.db import models
 
 # Create your models here.
 class User(models.Model):
+    user_id  = models.ForeignKey()
     user_name = models.CharField(max_length=50)
     email = models.EmailField()
 
@@ -11,3 +12,17 @@ class User(models.Model):
 
     class Meta:
         db_table = "user"
+
+class Spotify_playlist(models.Model):
+    playlist_id = models.CharField()
+    playlist_name = models.CharField()
+
+class Sptoify_tracks(models.Model):
+    playlist_id = models.CharField()
+    track_id = models.CharField()
+    track_name = models.CharField()
+    artist_id = models.CharField()
+
+class Spotify_artist(models.Model):
+    artist_id = models.CharField()
+    artist_name = models.CharField()
