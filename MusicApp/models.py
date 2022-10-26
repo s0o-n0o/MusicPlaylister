@@ -14,14 +14,14 @@ class User(models.Model):
         db_table = "user"
 
 class Spotify_playlist(models.Model):
-    playlist_id = models.CharField()
+    playlist_id = models.ForeignKey()
     playlist_name = models.CharField()
 
 class Sptoify_tracks(models.Model):
     playlist_id = models.CharField()
     track_id = models.CharField()
     track_name = models.CharField()
-    artist_id = models.CharField()
+    artist_id = models.ForeignKey()
 
 class Spotify_artist(models.Model):
     artist_id = models.CharField()
