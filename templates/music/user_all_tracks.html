@@ -1,0 +1,43 @@
+{% extends 'music/index.html'%}
+{% block content%}
+<h1 class= 'ms-2'>   Your All Playlist Tracks </h1>
+    <table class="table table-hover table-dark ">
+    <thead>
+        <tr>
+        {% comment %} <th scope="col"  style="width: 3%">#</th> {% endcomment %}
+        <th scope="col" style="width: 15%">playlist_name</th>
+        <th scope="col" style="width: 25%">track_name</th>
+        <th scope="col" style="width: 20%">artist_name</th>
+        <th scope="col" style="width: 30%">acoustickness</th>
+        <th scope="col" style="width: 30%">danceability</th>
+        <th scope="col" style="width: 30%">energy</th>
+        <th scope="col" style="width: 30%">valence</th>
+        <th scope="col" style="width: 30%">loudness</th>
+        <th scope="col" style="width: 90%">tempo</th>
+        </tr>
+    </thead>
+    <tbody>
+{% comment %} # {"playlist":[{ name; {id:id,artist:artist} , {name:{id:id,artist:artist}} ,...}]} {% endcomment %}
+    {% for  playlist_name,tracks in user_alltracks.items %}
+        <td>{{playlist_name}}</td>
+        {% for info in tracks %}
+            {% for name,value in info.items %}
+                <tr class="table-active">
+                    <td>{{forloop.counter}}</td> 
+                    <td>{{name}}</td>
+                    <td>{{value.artist}}</td>
+                    <td>{{value.feature.acousticness}}</td>
+                    <td>{{value.feature.danceability}}</td>
+                    <td>{{value.feature.energy}}</td>
+                    <td>{{value.feature.valence}}</td>
+                    <td>{{value.feature.loudness}}</td>
+                    <td>{{value.feature.tempo}}</td>
+                </tr>
+            {% endfor %}
+        {% endfor %}
+    {% endfor %}
+    </tbody>
+    </table>
+
+
+{% endblock%}

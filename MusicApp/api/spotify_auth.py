@@ -10,6 +10,7 @@ scope=("user-read-playback-position user-read-private user-read-email playlist-m
 def token(username,scope):
 
     if scope :
-        token= util.prompt_for_user_token(username=username, scope=scope, client_id=info.SPOTIPY_CLIENTID,client_secret=info.SPOTIPY_SECRET,redirect_uri=info.SPOTIPY_REDIRECTURI,cache_path="C:/Users/81805/Documents/programing/project/MusicPlaylister/MusicPlaylister/cache")
+        token= util.prompt_for_user_token(username=username, scope=scope, client_id=info.SPOTIPY_CLIENTID,client_secret=info.SPOTIPY_SECRET,redirect_uri=info.SPOTIPY_REDIRECTURI)
         sp = spotipy.Spotify(auth=token)
         return sp
+        

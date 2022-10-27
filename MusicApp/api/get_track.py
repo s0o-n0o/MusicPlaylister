@@ -1,11 +1,8 @@
-import spotipy
-from spotipy.oauth2 import SpotifyClientCredentials
-import pprint
-import os
+from decimal import MAX_EMAX
+from distutils.archive_util import make_archive
+from pprint import pprint
 from .spotify_auth import token
 # from spotify_auth import token
-
-
 
 class GetTrack(object):
 
@@ -18,16 +15,33 @@ class GetTrack(object):
             q=artist, type="artist", limit=5)  # get artist_info
         artist_id = result_search["artists"]["items"][0]["id"]
         return artist_id
-        # track_top10_list = self.get_artist_top_track(artist_id=artist_id)
-        # return track_top10_list
 
-    #
+
+    #アーティストの人気の10曲を取得
     def get_artist_top_track(self,artist_id) -> dict:
         result = self.spotify.artist_top_tracks(artist_id)
         tracklist = {}
         for track in result["tracks"]:
             tracklist[track['name']] = track['uri']
         return tracklist
+
+    def get_track_feature(self,track_name,track_id):
+        features = self.spotify.audio_features(tracks=track_id)
+        feature_list = {}
+        for i in range(len(features)):
+            feature = {"danceability":features[i]["danceability"], "energy":features[i]["energy"],"valence": features[i]["valence"],
+                "acousticness":features[i]["acousticness"],"loudness":features[i]['loudness'],'tempo':features[i]['tempo']}
+            pprint(f"{track_name}:{feature}")
+            max_feature = max(feature,key=feature.get)
+            feature_list[track_id] = feature
+        return feature_list
+            
+
+            
+
+
+
+
 
 # get_track = GetTrack(username="lcl").search_artist_id("vaundy")
 # print(get_track)
