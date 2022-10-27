@@ -8,6 +8,7 @@ urlpatterns = [
     path('logout', views.logout, name='logout'),
     path('home', views.home, name='home'),
     path('create', views.create, name='create'),
-    path('all_tracks', views.get_user_tracks, name='all_tracks'),
+    path('favorite_tracks', views.get_user_favorite_tracks, name='favorite_tracks'),
     path('playlist_track/<str:id>', views.get_playlist_tracks, name='playlist_tracks'),
+    path('user_all_track/', views.user_alltracks, name='user_all_tracks'),
 ]

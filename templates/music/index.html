@@ -29,7 +29,8 @@
       </font></font></a>
       {% comment %} <a type="submit" class="ms-2 btn btn-success" href="{% url 'music_app:playlist' %}"> Playlist</a> {% endcomment %}
       <a type="submit" class="ms-2 btn btn-success collapsed" href="{% url 'music_app:create' %}"> Create!</a>
-      <a type="submit" class="ms-2 btn btn-success collapsed" href="{% url "music_app:all_tracks" %}"> Your All Tracks</a>
+      <a type="submit" class="ms-2 btn btn-success collapsed" href="{% url "music_app:favorite_tracks" %}"> Your Favorite Tracks</a>
+      <a type="submit" class="ms-2 btn btn-success collapsed" href="{% url "music_app:user_all_tracks" %}"> Your All Tracks</a>
 
     </p>
     <div class="collapse" id="collapseExample" style="">
