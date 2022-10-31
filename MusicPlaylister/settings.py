@@ -72,7 +72,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'MusicPlaylister.wsgi.application'
 
-AUTH_USER_MODEl ='user.User'
+AUTH_USER_MODEL ='user.Users'
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
