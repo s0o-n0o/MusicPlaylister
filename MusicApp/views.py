@@ -7,17 +7,19 @@ from django.contrib.auth.decorators import login_required
 from .api.user_playlist import Playlist
 
 
-def login(request):
-    if request.method == 'POST':
-        global playlist 
-        username = request.POST["user_name"]
-        email = request.POST["email_address"]
-        playlist = Playlist(username=username)
-        return HttpResponseRedirect('/home')
-    return render(request, 'music/login.html')
+# def login(request):
+#     if request.method == 'POST':
+#         global playlist 
+#         username = request.POST["user_name"]
+#         email = request.POST["email_address"]
+#         playlist = Playlist(username=username)
+#         return HttpResponseRedirect('/home')
+#     return render(request, 'music/login.html')
 
 
 def home(request):
+    global playlist 
+    #playlist = Playlist()
     playlists = playlist.get_playlist()
     return render(request, 'music/home.html',context={
         "playlists":playlists ,#dict
