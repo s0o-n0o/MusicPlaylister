@@ -1,41 +1,35 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="utf-8">
-    <title> {% block title %} Welcome to MusicPlaylister!!{% endblock %}</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta property="og:title" content="">
-    <meta property="og:type" content="">
-    <meta property="og:url" content="">
-    <meta property="og:image" content="">
-  <!-- Place favicon.ico in the root directory -->
-  <link href="https://getbootstrap.com/docs/5.2/assets/css/docs.css" rel="stylesheet">
-<!-- CSS only -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
-    
-</head>
-<body class='text-bg-dark'>
-    <h1 class="d-block p-2 text-bg-dark text">MusicPlayLister</h1>
-    <header class="p-2">
+{% extends "music/index.html" %}
+{% load widget_tweaks%}
+{% block title %}ユーザ情報登録{{ block.super}}{% endblock %}
     <!-- Content here -->
+{% block content %}
+
         <div class="container-fluid">
+        {% if messages %}
+            {% for message in messages %}
+            <div>{{message}}</div>
+            {% endfor%}
+        {% endif %}
         <form method='POST'> {% csrf_token %}
-        <div class="col-md-6 form-group">
-            <label class='mt-3 text-white'>User Name(Display Name)</label>
-            <input type="text" class="form-control " placeholder="ユーザー名を入力" name="user_name">
-            <label class='mt-3 text-white'>Email Address</label>
-            <input type="text" class="form-control " placeholder="メールアドレスを入力" name="email_address">
+        <div class="col-md-6">
+            <label for="{{login_form.email.id_for_label}}" class="form-label" >email</label>
+            <ul>
+                {% for error in login_form.email.errors %}
+                    <li>{{error}}</li>
+                {% endfor %}
+            </ul>
+            {{ login_form.email|add_class:'form-control'}}
+            <label for="{{login_form.password.id_for_label}}" class="form-label" >password</label>
+            <ul>
+                {% for error in login_form.password.errors %}
+                    <li>{{error}}</li>
+                {% endfor %}
+            </ul>
+            {{ login_form.password|add_class:'form-control'}}
         </div>
-        <div class="d-flex justify-content-left">
-        <button type="submit" class="btn btn-success text-white">Login!! </button>
+        <div class="mt-3  d-flex justify-content-left">
+        <button type="submit" class="btn btn-primary">+ Login</button>
         </div>
         </form>
         </div>
-    <a type="submit" class="ms-1 btn btn-success" href> 登録</a>
-
-    </header>
-
-</body>
-</html>
+{% endblock %}

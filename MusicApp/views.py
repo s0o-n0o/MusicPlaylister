@@ -7,15 +7,8 @@ from django.contrib.auth.decorators import login_required
 from .api.user_playlist import Playlist
 
 
-# def login(request):
-#     if request.method == 'POST':
-#         global playlist 
-#         username = request.POST["user_name"]
-#         email = request.POST["email_address"]
-#         playlist = Playlist(username=username)
-#         return HttpResponseRedirect('/home')
-#     return render(request, 'music/login.html')
-
+def base(request):
+    return render(request,"music/base.html")
 
 def home(request):
     global playlist 
@@ -53,9 +46,6 @@ def get_playlist_tracks(request,id):
 
 
 # playlist.playlist_tracks()
-def logout(request):
-    del playlist
-    return HttpResponseRedirect("")
 
 def user_alltracks(request):
     # {"playlist":[{ name; {id:id,artist:artist} , {name:{id:id,artist:artist}} ,...}]}

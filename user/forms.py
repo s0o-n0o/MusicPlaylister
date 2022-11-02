@@ -4,10 +4,10 @@ from django.contrib.auth.password_validation import validate_password
 
 
 class RegistForm(forms.ModelForm):
-    username = forms.CharField(label='名前')
-    email =  forms.EmailField(label='メールアドレス')
-    password= forms.CharField(label='パスワード',widget=forms.PasswordInput())
-    confirm_password= forms.CharField(label='パスワード再入力',widget=forms.PasswordInput())
+    username = forms.CharField(label='username')
+    email =  forms.EmailField(label='email')
+    password= forms.CharField(label='password',widget=forms.PasswordInput())
+    confirm_password= forms.CharField(label='confirm_password',widget=forms.PasswordInput())
 
     class Meta():
         model = Users
@@ -28,4 +28,6 @@ class RegistForm(forms.ModelForm):
         return user
 
 
-
+class LoginForm(forms.Form):
+    email = forms.CharField(label='メールアドレス')
+    password = forms.CharField(label='パスワード',widget=forms.PasswordInput())

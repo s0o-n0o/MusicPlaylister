@@ -4,8 +4,7 @@ from . import views
 app_name = 'music_app'
 
 urlpatterns = [
-    # path('', views.login, name='login'),
-    path('logout', views.logout, name='logout'),
+    path('', views.base, name='base'),
     path('home', views.home, name='home'),
     path('create', views.create, name='create'),
     path('favorite_tracks', views.get_user_favorite_tracks, name='favorite_tracks'),
