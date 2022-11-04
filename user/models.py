@@ -8,8 +8,6 @@ from datetime import datetime,timedelta
 from django.contrib.auth.models import UserManager
 # Create your models here.
 
-    
-    
 
 class Users(AbstractBaseUser,PermissionsMixin):
     username= models.CharField(max_length = 255)

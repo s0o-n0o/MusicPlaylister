@@ -35,10 +35,11 @@
     {% endif %}
     </p>
     <div class="collapse" id="collapseExample" style="">
+    <a type="submit" class="ms-1 btn btn-success" href="https://open.spotify.com/"> Spotifyへ</a>
     {% if  user.is_authenticated %}
     <a type="submit" class="ms-1 btn btn-success" href="{% url "music_app:home"%}"> Home</a>
-    <a type="submit" class="ms-1 btn btn-success" href="https://open.spotify.com/"> Spotifyへ</a>
     <a type="submit" class="ms-1 btn btn-success" href="{% url 'user:user_logout'%}"> ログアウト</a>
+    <a type="submit" class="ms-1 btn btn-success" href="{% url 'user:user_edit'%}">ユーザ情報更新</a>
     {% else %}
     <a type="submit" class="ms-1 btn btn-success" href="{% url 'user:user_login'%}"> ログイン</a>
     <a type="submit" class="ms-1 btn btn-success" href="{% url 'user:regist'%}"> 登録</a>

@@ -1,10 +1,12 @@
+from audioop import reverse
+from urllib.parse import urlencode
 from django.shortcuts import render,redirect
 from MusicApp.api.user_playlist import Playlist
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.exceptions import ValidationError
-from .models import UserActivateTokens
+from .models import UserActivateTokens, Users
 from . import forms
-from django.contrib.auth import authenticate,login,logout
+from django.contrib.auth import authenticate,login,logout,update_session_auth_hash
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
@@ -14,15 +16,18 @@ def user_login(request):
     if login_form.is_valid():
         email= login_form.cleaned_data.get('email')
         password = login_form.cleaned_data.get('password')
-        print(email)
-        print(password)
         user = authenticate(email=email,password=password)
-        print(user)
+        users = Users.objects.get(email=email)
+        username=users.username
         if user:
             if user.is_active:
                 login(request,user)
                 messages.success(request,'ログインしました')
-                return redirect('music_app:home')
+                param= {'username':username}
+                query_string_parameter = urlencode(param)
+                url = 'http://127.0.0.1:8000/home'
+                new_url = url+'?'+query_string_parameter
+                return redirect(new_url)
             else:
                 messages.warning(request,'ユーザがアクティブではありません')
         else:
@@ -30,13 +35,6 @@ def user_login(request):
     return render(request, 'user/login.html',context={
         'login_form':login_form,
     })
-    
-    # if request.method == 'POST':
-    #     global playlist 
-    #     username = request.POST["user_name"]
-    #     email = request.POST["email_address"]
-    #     playlist = Playlist(username=username)
-    #     return HttpResponseRedirect('')
 
 @login_required
 def user_logout(request):
@@ -59,3 +57,29 @@ def regist(request):
 def activate_user(request,token):
     user_activate_token = UserActivateTokens.objects.activate_user_by_token(token)
     return render(request,'user/activate_user.html')
+
+@login_required
+def user_edit(request):
+    user_edit_form= forms.UserEditForm(request.POST or None, instance=request.user)
+    if  user_edit_form.is_valid():
+        messages.success(request,'更新完了しました')
+        user_edit_form.save()
+    return render(request,'user/user_edit.html',context={
+        'user_edit_form':user_edit_form,
+    })
+
+@login_required
+def change_password(request):
+    password_change_form = forms.PasswordChangeForm(request.POST or None, instance=request.user)
+    if password_change_form.is_valid():
+        try:
+            password_change_form.save()
+            messages.success(request,'パスワード更新完了しました')
+            update_session_auth_hash(request,request.user)
+        except ValidationError as e:
+            password_change_form.add_error('password',e)
+    return render(request,'user/change_password.html',context={
+        "password_change_form":password_change_form,
+    })
+
+            

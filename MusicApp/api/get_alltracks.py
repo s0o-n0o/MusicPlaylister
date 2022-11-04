@@ -6,4 +6,4 @@ f =[]
 for i in l:
     for item in i:
         f.append(item)
-print(f)
+# print(f)

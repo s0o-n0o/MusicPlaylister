@@ -31,7 +31,7 @@ class GetTrack(object):
         for i in range(len(features)):
             feature = {"danceability":features[i]["danceability"], "energy":features[i]["energy"],"valence": features[i]["valence"],
                 "acousticness":features[i]["acousticness"],"loudness":features[i]['loudness'],'tempo':features[i]['tempo']}
-            pprint(f"{track_name}:{feature}")
+            # pprint(f"{track_name}:{feature}")
             max_feature = max(feature,key=feature.get)
             feature_list[track_id] = feature
         return feature_list

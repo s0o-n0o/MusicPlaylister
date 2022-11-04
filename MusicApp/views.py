@@ -11,8 +11,9 @@ def base(request):
     return render(request,"music/base.html")
 
 def home(request):
-    global playlist 
-    #playlist = Playlist()
+    username = request.GET.get('username')
+    global playlist
+    playlist = Playlist(username=username)
     playlists = playlist.get_playlist()
     return render(request, 'music/home.html',context={
         "playlists":playlists ,#dict
