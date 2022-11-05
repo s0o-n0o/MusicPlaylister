@@ -25,16 +25,13 @@ class GetTrack(object):
             tracklist[track['name']] = track['uri']
         return tracklist
 
-    def get_track_feature(self,track_name,track_id):
+    def get_track_feature(self,track_id):
         features = self.spotify.audio_features(tracks=track_id)
         feature_list = {}
         for i in range(len(features)):
             feature = {"danceability":features[i]["danceability"], "energy":features[i]["energy"],"valence": features[i]["valence"],
                 "acousticness":features[i]["acousticness"],"loudness":features[i]['loudness'],'tempo':features[i]['tempo']}
-            # pprint(f"{track_name}:{feature}")
-            max_feature = max(feature,key=feature.get)
-            feature_list[track_id] = feature
-        return feature_list
+        return feature
             
 
             

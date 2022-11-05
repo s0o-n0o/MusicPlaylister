@@ -22,6 +22,9 @@ class Users(AbstractBaseUser,PermissionsMixin):
 
     class Meta:
         db_table = 'users'
+    
+    def __str__(self) -> str:
+        return self.username
 
 class UserActivateTokensManager(models.Manager):
 
