@@ -24,12 +24,12 @@ class SpotifyTracks(models.Model):
     track_id = models.CharField(max_length=255,primary_key=True)
     track_name = models.CharField(max_length=255)
     artist = models.ForeignKey("SpotifyArtist",on_delete=models.CASCADE)
-    danceability=models.IntegerField()
-    energy=models.IntegerField()
-    valence=models.IntegerField()
-    acousticness=models.IntegerField()
-    loudness=models.IntegerField()
-    tempo=models.IntegerField()
+    danceability=models.FloatField()
+    energy=models.FloatField()
+    valence=models.FloatField()
+    acousticness=models.FloatField()
+    loudness=models.FloatField()
+    tempo=models.FloatField()
 
     class Meta:
         db_table = 'spotify_tracks'

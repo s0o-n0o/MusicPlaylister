@@ -37,8 +37,6 @@ class Playlist(GetTrack):
     def get_playlist(self) -> dict:
         user_id =self.spotify.me()['id']
         user_playlist_info = self.spotify.user_playlists(user=user_id)
-        print('*'*100)
-        print(type((self.username)))
         for i in range(len(user_playlist_info['items'])):
             playlist,created= SpotifyPlaylist.objects.get_or_create(
                                     user = Users.objects.get(username=self.username),
@@ -49,10 +47,12 @@ class Playlist(GetTrack):
     #プレイリスト内の全曲取得
     def playlist_tracks(self,playlist_id) -> list:
         playlist_tracks = self.spotify.playlist_items(playlist_id=playlist_id)
+        playlist = SpotifyPlaylist.objects.get(playlist_id=playlist_id)
         for i in range(len(playlist_tracks['items'])):
             if playlist_tracks['items'][i]['track'] == None:
                 continue
             else:
+                
                 artist,created  =  SpotifyArtist.objects.get_or_create(artist_id=playlist_tracks['items'][i]['track']['artists'][0]['id'],
                                                                         artist_name=playlist_tracks['items'][i]['track']['artists'][0]['name'])
                 playlist_track_id = playlist_tracks['items'][i]['track']['id'] #id取得
@@ -68,6 +68,7 @@ class Playlist(GetTrack):
                     loudness=playlist_track_feature['loudness'],
                     tempo=playlist_track_feature['tempo'],
                     )
+                track.playlist.add(playlist)
         # info.append(track_info)
         # print(info)
         #[ { name; {id:id,artist:artist} , {name:{id:id,artist:artist}} ,...} ]

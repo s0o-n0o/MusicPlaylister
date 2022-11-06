@@ -13,7 +13,7 @@ def base(request):
     return render(request,"music/base.html")
 
 def home(request):
-    username = request.GET.get('username')
+    username = request.user
     global playlist
     playlist = Playlist(username=username)
     playlist.get_playlist() #dict
