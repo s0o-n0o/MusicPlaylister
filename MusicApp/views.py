@@ -7,6 +7,8 @@ from django.contrib.auth.decorators import login_required
 from .api.user_playlist import Playlist
 from MusicApp.models import SpotifyArtist,SpotifyPlaylist,SpotifyTracks
 from user.models import Users
+from django.core.cache import cache
+
 
 
 def base(request):
@@ -18,8 +20,8 @@ def home(request):
     playlist = Playlist(username=username)
     playlist.get_playlist() #dict
     playlists=SpotifyPlaylist.objects.all()
-    for playlist_data in playlists.values():
-        playlist.playlist_tracks(playlist_data['playlist_id'])
+    # for playlist_data in playlists.values():
+    #     playlist.playlist_tracks(playlist_data['playlist_id'])
     return render(request, 'music/home.html',context={
         "playlists":playlists ,#dict
     })
