@@ -17,17 +17,17 @@ def user_login(request):
         email= login_form.cleaned_data.get('email')
         password = login_form.cleaned_data.get('password')
         user = authenticate(email=email,password=password)
-        users = Users.objects.get(email=email)
-        username=users.username
+        # users = Users.objects.get(email=email)
+        # username=users.username
         if user:
             if user.is_active:
                 login(request,user)
                 messages.success(request,'ログインしました')
-                param= {'username':username}
-                query_string_parameter = urlencode(param)
-                url = 'http://127.0.0.1:8000/home'
-                new_url = url+'?'+query_string_parameter
-                return redirect(new_url)
+                # param= {'username':username}
+                # query_string_parameter = urlencode(param)
+                # url = 'http://127.0.0.1:8000/home'
+                # new_url = url+'?'+query_string_parameter
+                return redirect('music_app:home')
             else:
                 messages.warning(request,'ユーザがアクティブではありません')
         else:

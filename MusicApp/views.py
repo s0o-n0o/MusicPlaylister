@@ -45,8 +45,10 @@ def get_user_favorite_tracks(request):
 
 def get_playlist_tracks(request,id):
     playlist_id = id
-    playlist_tracks = playlist.playlist_tracks(playlist_id=playlist_id)
-    # print(playlist_tracks)
+    playlist_tracks = SpotifyTracks.objects.ge
+
+
+
     #[ { name; {id:id,artist:artist} , {id:id,artist:artist} ,...} ]
     return render(request, 'music/playlist_tracks.html',context={
         'playlist_tracks':playlist_tracks,

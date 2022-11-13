@@ -21,14 +21,14 @@
         {% for name,info in track.items %}
             <tr class="table-active">
                 <td>{{forloop.counter}}.</td> 
-                <td>{{name}}</td>
-                <td>{{info.artist}}</td>
-                <td>{{info.feature.acousticness}}</td>
-                <td>{{info.feature.danceability}}</td>
-                <td>{{info.feature.energy}}</td>
-                <td>{{info.feature.valence}}</td>
-                <td>{{info.feature.loudness}}</td>
-                <td>{{info.feature.tempo}}</td>
+                <td>{{track.track_name}}</td>
+                <td>{{track.artist.artist_name}}</td>
+                <td>{{track.acousticness}}</td>
+                <td>{{track.danceability}}</td>
+                <td>{{track.energy}}</td>
+                <td>{{track.valence}}</td>
+                <td>{{track.loudness}}</td>
+                <td>{{track.tempo}}</td>
             </tr>
         {% endfor %}
     {% endfor %}

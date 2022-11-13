@@ -9,11 +9,11 @@
             </tr>
         </thead>
         <tbody>
-            {% for playlist_name,id  in playlists.items %}
+            {% for playlist  in playlists %}
             <tr class="table-active">
                 <td>{{forloop.counter}}.</td> 
                 <td>
-                    <a class="text-white" href="{% url "music_app:playlist_tracks" id=id %}"> {{playlist_name}} </a>
+                    <a class="text-white" href="{% url "music_app:playlist_tracks" id=playlist.playlist_id %}"> {{playlist.playlist_name}} </a>
                 </td>
             </tr>
             {% endfor %}
