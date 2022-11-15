@@ -4,8 +4,10 @@
     <table class="table table-hover table-dark ">
     <thead>
         <tr>
-        {% comment %} <th scope="col"  style="width: 3%">#</th> {% endcomment %}
         <th scope="col" style="width: 15%">playlist_name</th>
+        </tr>
+        <tr>
+        <th scope="col"  style="width: 3%">#</th>
         <th scope="col" style="width: 25%">track_name</th>
         <th scope="col" style="width: 20%">artist_name</th>
         <th scope="col" style="width: 30%">acoustickness</th>
@@ -18,23 +20,18 @@
     </thead>
     <tbody>
 {% comment %} # {"playlist":[{ name; {id:id,artist:artist} , {name:{id:id,artist:artist}} ,...}]} {% endcomment %}
-    {% for  playlist_name,tracks in user_alltracks.items %}
-        <td>{{playlist_name}}</td>
-        {% for info in tracks %}
-            {% for name,value in info.items %}
+    {% for  track in user_alltracks %}
                 <tr class="table-active">
-                    <td>{{forloop.counter}}</td> 
-                    <td>{{name}}</td>
-                    <td>{{value.artist}}</td>
-                    <td>{{value.feature.acousticness}}</td>
-                    <td>{{value.feature.danceability}}</td>
-                    <td>{{value.feature.energy}}</td>
-                    <td>{{value.feature.valence}}</td>
-                    <td>{{value.feature.loudness}}</td>
-                    <td>{{value.feature.tempo}}</td>
+                    <td>{{forloop.counter}}.</td> 
+                    <td>{{track.track_name}}</td>
+                    <td>{{track.artist.artist_name}}</td>
+                    <td>{{track.acousticness}}</td>
+                    <td>{{track.danceability}}</td>
+                    <td>{{track.energy}}</td>
+                    <td>{{track.valence}}</td>
+                    <td>{{track.loudness}}</td>
+                    <td>{{track.tempo}}</td>
                 </tr>
-            {% endfor %}
-        {% endfor %}
     {% endfor %}
     </tbody>
     </table>
