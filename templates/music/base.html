@@ -1,4 +1,12 @@
 {% extends "music/index.html" %}
 {% block content %}
 <h1>ようこそ、MusicPlayLister へ</h1>
+<h2 >アーティストの人気の曲でプレイリストが作れます</h2>
+
+{% if user.is_authenticated%}
+<h4 class="mt-5">
+アーティストの人気の曲でプレイリストを作成する
+<a type="submit" class="ms-2 btn btn-success" href="{% url 'music_app:create' %}"> Create!</a>
+</h4>
+{% endif %}
 {% endblock%}
