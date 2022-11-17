@@ -14,8 +14,11 @@ from django.core.cache import cache
 def base(request):
     return render(request,"music/base.html")
 
+@login_required
 def home(request):
-    username = request.user
+    username = request.user.username
+    if username == None:
+        return HttpResponseRedirect('/user_login')
     global playlist
     playlist = Playlist(username=username)
     playlist.get_playlist() #dict
@@ -26,7 +29,7 @@ def home(request):
         "playlists":playlists ,#dict
     })
 
-
+@login_required
 def create(request):
     if request.method == "POST":
         artist_list = request.POST.getlist("artist")
@@ -35,14 +38,14 @@ def create(request):
         return HttpResponseRedirect('/home')
     return render(request, "music/create.html")
 
-
+@login_required
 def get_user_favorite_tracks(request):
     favorite_tracks =playlist.get_all_saved_tracks() #お気に入りの全曲
     return render(request,'music/favorite_tracks.html',context={
         'favorite_tracks':favorite_tracks,
     })
 
-
+@login_required
 def get_playlist_tracks(request,id):
     playlist_id = id
     playlist_tracks = SpotifyTracks.objects.all()
@@ -58,7 +61,7 @@ def get_playlist_tracks(request,id):
 
 
 # playlist.playlist_tracks()
-
+@login_required
 def user_alltracks(request):
     # {"playlist":[{ name; {id:id,artist:artist} , {name:{id:id,artist:artist}} ,...}]}
     # user_alltracks =playlist.user_all_tracks()
@@ -71,3 +74,6 @@ def user_alltracks(request):
         'user_alltracks':user_alltracks,
     })
 
+
+def page_not_found(request,exception):
+    return render(request,'music/404.html',status=404)
