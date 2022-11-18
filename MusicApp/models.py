@@ -6,7 +6,7 @@ from user.models import Users
 
 class SpotifyPlaylist(models.Model):
     user  = models.ForeignKey("user.Users", on_delete=models.CASCADE)
-    playlist_id = models.CharField(max_length=255,primary_key=True)
+    playlist_id = models.CharField(max_length=255)
     playlist_name = models.CharField(max_length = 255)
     
 

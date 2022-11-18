@@ -16,13 +16,19 @@ def base(request):
 
 @login_required
 def home(request):
-    username = request.user.username
-    if username == None:
+    global playlist,user_id,user_email
+    user_id = request.user.id#重複する可能性あり
+    print(user_id)
+    user_email= request.user.email #ユニーク
+    if user_id == None:
         return HttpResponseRedirect('/user_login')
-    global playlist
-    playlist = Playlist(username=username)
+    playlist = Playlist(user_id=user_id,email=user_email)
+    # print(user_email)
+    # user_id = Users.objects.get(email=user_email).pk
+    # print(f'user_id:{user_id}')
     playlist.get_playlist() #dict
-    playlists=SpotifyPlaylist.objects.all()
+    playlists=SpotifyPlaylist.objects.filter(user_id=user_id)
+
     # for playlist_data in playlists.values():
     #     playlist.playlist_tracks(playlist_data['playlist_id'])
     return render(request, 'music/home.html',context={
@@ -48,6 +54,7 @@ def get_user_favorite_tracks(request):
 @login_required
 def get_playlist_tracks(request,id):
     playlist_id = id
+    playlist.playlist_tracks(playlist_id=playlist_id,user_id=user_id)
     playlist_tracks = SpotifyTracks.objects.all()
     tracks = []
     for track in playlist_tracks:

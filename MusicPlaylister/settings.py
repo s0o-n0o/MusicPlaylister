@@ -24,9 +24,10 @@ STATIC_DIR = os.path.join(BASE_DIR,'static')
 SECRET_KEY = 'django-insecure-a9k7s*tclvr8ga!a75y0^0w#ohj#_bay(!du3kyg&a4wvxm1h4'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+# DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1']
+# ALLOWED_HOSTS = ['127.0.0.1']
 
 
 # Application definition
@@ -75,7 +76,7 @@ WSGI_APPLICATION = 'MusicPlaylister.wsgi.application'
 
 AUTH_USER_MODEL = 'user.Users'
 
-SESSION_COOKIE_AGE = 180
+SESSION_COOKIE_AGE = 3600
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 # Database
