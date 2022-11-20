@@ -23,10 +23,7 @@ def home(request):
     if user_id == None:
         return HttpResponseRedirect('/user_login')
     playlist = Playlist(user_id=user_id,email=user_email)
-    # print(user_email)
-    # user_id = Users.objects.get(email=user_email).pk
-    # print(f'user_id:{user_id}')
-    playlist.get_playlist() #dict
+    playlist.get_playlist(id=user_id) #dict
     playlists=SpotifyPlaylist.objects.filter(user_id=user_id)
 
     # for playlist_data in playlists.values():
@@ -72,13 +69,20 @@ def get_playlist_tracks(request,id):
 def user_alltracks(request):
     # {"playlist":[{ name; {id:id,artist:artist} , {name:{id:id,artist:artist}} ,...}]}
     # user_alltracks =playlist.user_all_tracks()
-    user_alltracks =  SpotifyTracks.objects.all()
-    playlists=  SpotifyPlaylist.objects.all()
+    alltracks =  SpotifyTracks.objects.all()
+    playlists=  SpotifyPlaylist.objects.filter(user_id=user_id)
+    user_alltracks = alltracks.filter(playlist = playlists)
+    count= len(user_alltracks)
     # for track in user_alltracks:
     #     for playlist in playlists:
     #         print(track.playlist.filter(playlist_id = playlist.playlist_id))
+    # print(playlists)
+    for playlist_data in playlists:
+        # print(playlist_data.playlist_id)
+        playlist.playlist_tracks(playlist_id=playlist_data.playlist_id, user_id=user_id)
     return render(request,'music/user_all_tracks.html',context={
         'user_alltracks':user_alltracks,
+        'count':count
     })
 
 

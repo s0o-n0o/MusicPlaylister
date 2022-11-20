@@ -35,62 +35,57 @@ class Playlist(GetTrack):
 
 
     #全プレイリスト取得
-    def get_playlist(self) -> dict:
+    def get_playlist(self,id) -> dict:
         user_id =self.spotify.me()['id']
         # print(user_id)
+        current_playlist = SpotifyPlaylist.objects.filter(user_id=id)
         user_playlist_info = self.spotify.user_playlists(user=user_id)
-        # pprint(user_playlist_info)
-        for i in range(len(user_playlist_info['items'])):
-            playlist,created= SpotifyPlaylist.objects.get_or_create(
-                                    user = Users.objects.get(email=self.email),
-                                    playlist_name=user_playlist_info['items'][i]['name'],
-                                    playlist_id= user_playlist_info['items'][i]['id']
-                                    )
+        # print(current_playlist_name)
+        if not len(current_playlist) == len(user_playlist_info['items']):
+            current_playlist_name = current_playlist.values('playlist_name')
+            current_playlist_name= [current_playlist_name[i]['playlist_name'] for i in range(len(current_playlist_name))]
+        
+            for i in range(len(user_playlist_info['items'])):
+                if not user_playlist_info['items'][i]['name'] in current_playlist_name:
+                    playlist,created= SpotifyPlaylist.objects.get_or_create(
+                                            user = Users.objects.get(email=self.email),
+                                            playlist_name=user_playlist_info['items'][i]['name'],
+                                            playlist_id= user_playlist_info['items'][i]['id']
+                                            )
+    
+            
+
 
     #プレイリスト内の全曲取得
     def playlist_tracks(self,playlist_id,user_id) -> list:
         playlist_tracks = self.spotify.playlist_items(playlist_id=playlist_id)
-        # pprint(playlist_tracks)
         playlist = SpotifyPlaylist.objects.get(playlist_id=playlist_id,user_id=user_id)
-        # print(playlist_tracks['items'][0]['track']['artists'])
-        # pprint(playlist)
+        current_tracks = SpotifyTracks.objects.filter(playlist=playlist)
 
+        if not len(current_tracks)==len(playlist_tracks['items']):
+            for i in range(len(playlist_tracks['items'])):
+                if playlist_tracks['items'][i]['track'] == None:
+                    continue
+                else:
+                    artist,create = SpotifyArtist.objects.get_or_create(
+                        artist_id = playlist_tracks['items'][i]['track']['artists'][0]['id'],
+                        artist_name= playlist_tracks['items'][i]['track']['artists'][0]['name'],
+                        )
+                    playlist_track_id = playlist_tracks['items'][i]['track']['id'] #id取得
+                    playlist_track_feature = self.get_track_feature(playlist_track_id)
 
-        create_list = []
-        for i in range(len(playlist_tracks['items'])):
-            if not playlist_tracks['items'][i]['track'] == None:
-                for j in range(len(playlist_tracks['items'][0]['track']['artists'])):
-                    obj = SpotifyArtist(
-                        artist_id=playlist_tracks['items'][i]['track']['artists'][j]['id'],
-                        artist_name=playlist_tracks['items'][i]['track']['artists'][j]['name'],)
-                    create_list.append(obj)
-        try:
-            SpotifyArtist.objects.bulk_create(create_list)
-        except:
-            pass
-
-        for i in range(len(playlist_tracks['items'])):
-            if playlist_tracks['items'][i]['track'] == None:
-                continue
-            else:
-                playlist_track_id = playlist_tracks['items'][i]['track']['id'] #id取得
-                playlist_track_feature = self.get_track_feature(playlist_track_id)
-                track,created = SpotifyTracks.objects.get_or_create(
-                    track_id= playlist_tracks['items'][i]['track']['id'],
-                    track_name= playlist_tracks['items'][i]['track']['name'],
-                    artist =  SpotifyArtist.objects.get(artist_id=artist_id),
-                    danceability=playlist_track_feature['danceability'],
-                    energy=playlist_track_feature['energy'],
-                    valence=playlist_track_feature['valence'],
-                    acousticness=playlist_track_feature['acousticness'],
-                    loudness=playlist_track_feature['loudness'],
-                    tempo=playlist_track_feature['tempo'],
-                    )
-                track.playlist.add(playlist)
-        # info.append(track_info)
-        # print(info)
-        #[ { name; {id:id,artist:artist} , {name:{id:id,artist:artist}} ,...} ]
-        # return info
+                    track,created = SpotifyTracks.objects.get_or_create(
+                        track_id= playlist_tracks['items'][i]['track']['id'],
+                        track_name= playlist_tracks['items'][i]['track']['name'],
+                        artist =  artist,
+                        danceability=playlist_track_feature['danceability'],
+                        energy=playlist_track_feature['energy'],
+                        valence=playlist_track_feature['valence'],
+                        acousticness=playlist_track_feature['acousticness'],
+                        loudness=playlist_track_feature['loudness'],
+                        tempo=playlist_track_feature['tempo'],
+                        )
+                    track.playlist.add(playlist)
 
     #ユーザのプレイリスト内にある全曲
     def user_all_tracks(self) -> dict:

@@ -13,6 +13,9 @@ class SpotifyPlaylist(models.Model):
 
     class Meta:
         db_table = 'spotify_playlist'
+    
+    def __str__(self) -> str:
+        return self.playlist_name
 
 class SpotifyArtist(models.Model):
     artist_id = models.CharField(max_length=255,primary_key=True)
@@ -20,6 +23,9 @@ class SpotifyArtist(models.Model):
 
     class Meta:
         db_table = 'spotify_artist'
+
+    def __str__(self) -> str:
+        return self.artist_name
 
 class SpotifyTracks(models.Model):
     playlist =models.ManyToManyField(SpotifyPlaylist)
@@ -35,3 +41,7 @@ class SpotifyTracks(models.Model):
 
     class Meta:
         db_table = 'spotify_tracks'
+
+
+    def __str__(self) -> str:
+        return self.track_name
