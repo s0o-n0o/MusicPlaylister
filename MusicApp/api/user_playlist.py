@@ -3,6 +3,7 @@ from .get_track import GetTrack
 from MusicApp.models import SpotifyArtist,SpotifyPlaylist,SpotifyTracks
 from user.models import Users
 from pprint import pprint
+
 class Playlist(GetTrack):
     #トークン取得
     def __init__(self,user_id,email):

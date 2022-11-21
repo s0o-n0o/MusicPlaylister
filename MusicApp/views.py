@@ -17,7 +17,7 @@ def base(request):
 @login_required
 def home(request):
     global playlist,user_id,user_email
-    user_id = request.user.id#重複する可能性あり
+    user_id = request.user.id #重複する可能性あり
     print(user_id)
     user_email= request.user.email #ユニーク
     if user_id == None:
@@ -25,9 +25,6 @@ def home(request):
     playlist = Playlist(user_id=user_id,email=user_email)
     playlist.get_playlist(id=user_id) #dict
     playlists=SpotifyPlaylist.objects.filter(user_id=user_id)
-
-    # for playlist_data in playlists.values():
-    #     playlist.playlist_tracks(playlist_data['playlist_id'])
     return render(request, 'music/home.html',context={
         "playlists":playlists ,#dict
     })
@@ -64,7 +61,6 @@ def get_playlist_tracks(request,id):
     })
 
 
-# playlist.playlist_tracks()
 @login_required
 def user_alltracks(request):
     # {"playlist":[{ name; {id:id,artist:artist} , {name:{id:id,artist:artist}} ,...}]}
