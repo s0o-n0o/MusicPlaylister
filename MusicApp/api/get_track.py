@@ -27,11 +27,12 @@ class GetTrack(object):
 
     def get_track_feature(self,track_id):
         features = self.spotify.audio_features(tracks=track_id)
-        feature_list = {}
+        # track_analyze = self.spotify.
         for i in range(len(features)):
             feature = {"danceability":features[i]["danceability"], "energy":features[i]["energy"],"valence": features[i]["valence"],
                 "acousticness":features[i]["acousticness"],"loudness":features[i]['loudness'],'tempo':features[i]['tempo']}
         return feature
+
             
 
             

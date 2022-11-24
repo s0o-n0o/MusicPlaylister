@@ -8,6 +8,8 @@ from .api.user_playlist import Playlist
 from MusicApp.models import SpotifyArtist,SpotifyPlaylist,SpotifyTracks
 from user.models import Users
 from django.core.cache import cache
+from django.contrib import messages
+
 
 
 
@@ -34,6 +36,10 @@ def create(request):
     if request.method == "POST":
         artist_list = request.POST.getlist("artist")
         playlist_name = request.POST["playlist_name"]
+        if artist_list == None:
+            messages.warning(request,'アーティストを入力してください')
+        if playlist_name == None:
+            messages.warning(request,'プレイリスト名を入力してください')
         playlist.create_playlist(artist_list=artist_list, playlist_name=playlist_name)
         return HttpResponseRedirect('/home')
     return render(request, "music/create.html")
