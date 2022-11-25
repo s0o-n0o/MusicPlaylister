@@ -39,20 +39,25 @@ class Playlist(GetTrack):
     def get_playlist(self,id) -> dict:
         user_id =self.spotify.me()['id']
         # print(user_id)
-        current_playlist = SpotifyPlaylist.objects.filter(user_id=id)
-        user_playlist_info = self.spotify.user_playlists(user=user_id)
+        current_playlist = SpotifyPlaylist.objects.filter(user_id=id) #db内
+        user_playlist_info = self.spotify.user_playlists(user=user_id) #spotify内
         # print(current_playlist_name)
-        if not len(current_playlist) == len(user_playlist_info['items']):
-            current_playlist_name = current_playlist.values('playlist_name')
-            current_playlist_name= [current_playlist_name[i]['playlist_name'] for i in range(len(current_playlist_name))]
-        
-            for i in range(len(user_playlist_info['items'])):
-                if not user_playlist_info['items'][i]['name'] in current_playlist_name:
-                    playlist,created= SpotifyPlaylist.objects.get_or_create(
-                                            user = Users.objects.get(email=self.email),
-                                            playlist_name=user_playlist_info['items'][i]['name'],
-                                            playlist_id= user_playlist_info['items'][i]['id']
-                                            )
+        # print(user_playlist_info)
+        current_playlist_name = current_playlist.values('playlist_id')
+        current_playlist_name = [current_playlist_name[i]['playlist_id'] for i in range(len(current_playlist_name))]
+        user_playlists = [user_playlist_info['items'][i]["id"] for i in range(len(user_playlist_info['items']))]
+        print(user_playlists)
+        print(current_playlist_name)
+        # db内にspotifyのプレイリストがないときにカラム作成
+        for i in range(len(user_playlist_info['items'])):
+            if not user_playlist_info['items'][i]['name'] in current_playlist_name:
+                playlist,created= SpotifyPlaylist.objects.get_or_create(
+                                        user = Users.objects.get(email=self.email),
+                                        playlist_name=user_playlist_info['items'][i]['name'],
+                                        playlist_id= user_playlist_info['items'][i]['id']
+                                        )
+            
+
     
             
 

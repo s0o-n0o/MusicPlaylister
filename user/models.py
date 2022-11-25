@@ -51,10 +51,3 @@ class UserActivateTokens(models.Model):
     class Meta:
         db_table = 'user_activate_tokens'
 
-# @receiver(post_save,sender=Users)
-# def publish_token(sender,instance,**kwargs):
-#     user_activate_token = UserActivateTokens.objects.create(
-#         user=instance, token=str(uuid4()), expired_at= datetime.now()+timedelta(days=1)
-#     )
-#     #メールでURLを送る方がいい
-#     print(f'http://127.0.0.1:8000/activate_user/{user_activate_token.token}')

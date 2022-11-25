@@ -20,7 +20,7 @@ def base(request):
 def home(request):
     global playlist,user_id,user_email
     user_id = request.user.id #重複する可能性あり
-    print(user_id)
+    # print(user_id)
     user_email= request.user.email #ユニーク
     if user_id == None:
         return HttpResponseRedirect('/user_login')
@@ -33,14 +33,26 @@ def home(request):
 
 @login_required
 def create(request):
+
     if request.method == "POST":
         artist_list = request.POST.getlist("artist")
         playlist_name = request.POST["playlist_name"]
-        if artist_list == None:
+
+        #valid
+        artist_none_flag = False
+        for i in range(len(artist_list)):
+            if artist_list[i] != "":
+                artist_none_flag = True
+        if artist_none_flag == False:
             messages.warning(request,'アーティストを入力してください')
-        if playlist_name == None:
-            messages.warning(request,'プレイリスト名を入力してください')
+        if playlist_name == "":
+            messages.error(request,'プレイリスト名を入力してください')
+        if  artist_none_flag==False or playlist_name == "":    
+            return render(request, "music/create.html")
+
+        #success
         playlist.create_playlist(artist_list=artist_list, playlist_name=playlist_name)
+
         return HttpResponseRedirect('/home')
     return render(request, "music/create.html")
 
