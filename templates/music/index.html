@@ -29,6 +29,7 @@
       </font></font></a>
     {% if user.is_authenticated %}  
       {% comment %} <a type="submit" class="ms-2 btn btn-success" href="{% url 'music_app:playlist' %}"> Playlist</a> {% endcomment %}
+      <a type="submit" class="ms-1 btn btn-success" href="{% url "music_app:home"%}"> Home</a>
       <a type="submit" class="ms-2 btn btn-success collapsed" href="{% url 'music_app:create' %}"> Create!</a>
       <a type="submit" class="ms-2 btn btn-success collapsed" href="{% url "music_app:favorite_tracks" %}"> Your Favorite Tracks</a>
       <a type="submit" class="ms-2 btn btn-success collapsed" href="{% url "music_app:user_all_tracks" %}"> Your All Tracks</a>
@@ -37,7 +38,6 @@
     <div class="collapse" id="collapseExample" style="">
     <a type="submit" class="ms-1 btn btn-success" href="https://open.spotify.com/"> Spotifyへ</a>
     {% if  user.is_authenticated %}
-    <a type="submit" class="ms-1 btn btn-success" href="{% url "music_app:home"%}"> Home</a>
     <a type="submit" class="ms-1 btn btn-success" href="{% url 'user:user_logout'%}"> ログアウト</a>
     <a type="submit" class="ms-1 btn btn-success" href="{% url 'user:user_edit'%}">ユーザ情報更新</a>
     {% else %}

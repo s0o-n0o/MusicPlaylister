@@ -37,6 +37,20 @@ class Playlist(GetTrack):
 
     #全プレイリスト取得
     def get_playlist(self,id) -> dict:
+
+        def differential_adjustment(current_db_playlists, spotify_playlists):
+            delete_list = []
+            for db in current_db_playlists:
+                existflag = False
+                for sp in spotify_playlists:
+                    if db == sp:
+                        existflag =True
+                if existflag == False:
+                    delete_list.append(db)
+            for delete in delete_list:
+                SpotifyPlaylist.objects.filter(playlist_id = delete).delete()
+
+
         user_id =self.spotify.me()['id']
         # print(user_id)
         current_playlist = SpotifyPlaylist.objects.filter(user_id=id) #db内
@@ -56,6 +70,11 @@ class Playlist(GetTrack):
                                         playlist_name=user_playlist_info['items'][i]['name'],
                                         playlist_id= user_playlist_info['items'][i]['id']
                                         )
+        differential_adjustment(current_db_playlists=current_playlist_name,spotify_playlists=user_playlists)
+        
+        
+
+        
             
 
     
