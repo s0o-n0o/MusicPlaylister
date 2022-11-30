@@ -99,6 +99,9 @@ def user_alltracks(request):
         'count':count
     })
 
+def play_track(request,track_id):
+    
+
 
 def page_not_found(request,exception):
     return render(request,'music/404.html',status=404)

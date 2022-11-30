@@ -11,4 +11,5 @@ urlpatterns = [
     path('favorite_tracks', views.get_user_favorite_tracks, name='favorite_tracks'),
     path('playlist_track/<str:id>', cache_page(60*60)(views.get_playlist_tracks), name='playlist_tracks'),
     path('user_all_track/', cache_page(60*60)(views.user_alltracks), name='user_all_tracks'),
+    path('play_track/<str:track_id>', views.play_track,name="play_track")
 ]
