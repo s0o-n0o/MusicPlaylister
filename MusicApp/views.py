@@ -100,7 +100,8 @@ def user_alltracks(request):
     })
 
 def play_track(request,track_id):
-    
+    pass
+
 
 
 def page_not_found(request,exception):

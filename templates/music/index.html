@@ -31,6 +31,14 @@
       {% comment %} <a type="submit" class="ms-2 btn btn-success" href="{% url 'music_app:playlist' %}"> Playlist</a> {% endcomment %}
       <a type="submit" class="ms-1 btn btn-success" href="{% url "music_app:home"%}"> Home</a>
       <a type="submit" class="ms-2 btn btn-success collapsed" href="{% url 'music_app:create' %}"> Create!</a>
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal" data-bs-whatever="@getbootstrap">+追加</button>
+            <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="createModalLabel">New Todo</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
       <a type="submit" class="ms-2 btn btn-success collapsed" href="{% url "music_app:favorite_tracks" %}"> Your Favorite Tracks</a>
       <a type="submit" class="ms-2 btn btn-success collapsed" href="{% url "music_app:user_all_tracks" %}"> Your All Tracks</a>
     {% endif %}
