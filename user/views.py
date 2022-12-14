@@ -20,7 +20,7 @@ def user_login(request):
         if user:
             if user.is_active:
                 login(request,user)
-                messages.success(request,'ログインしました')
+                # messages.success(request,'ログインしました')
                 return redirect('music_app:home')
             else:
                 messages.warning(request,'ユーザがアクティブではありません')
@@ -33,7 +33,7 @@ def user_login(request):
 @login_required
 def user_logout(request):
     logout(request)
-    messages.success(request,'ログアウトしました')
+    # messages.success(request,'ログアウトしました')
     return redirect('music_app:base')
 
 def regist(request):
@@ -56,7 +56,7 @@ def regist(request):
 def user_edit(request):
     user_edit_form= forms.UserEditForm(request.POST or None, instance=request.user)
     if  user_edit_form.is_valid():
-        messages.success(request,'更新完了しました')
+        # messages.success(request,'更新完了しました')
         user_edit_form.save()
     return render(request,'user/user_edit.html',context={
         'user_edit_form':user_edit_form,
@@ -68,7 +68,7 @@ def change_password(request):
     if password_change_form.is_valid():
         try:
             password_change_form.save()
-            messages.success(request,'パスワード更新完了しました')
+            # messages.success(request,'パスワード更新完了しました')
             update_session_auth_hash(request,request.user)
         except ValidationError as e:
             password_change_form.add_error('password',e)
