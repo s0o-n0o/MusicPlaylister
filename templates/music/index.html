@@ -77,10 +77,10 @@
             </div>
             </div>
             <script type="text/javascript" src="{% static 'js/create_playlist.js' %}"></script>
-      <a type="submit" class="ms-2 btn btn-success collapsed" href="{% url "music_app:favorite_tracks" %}"> Your Favorite Tracks</a>
-      <a type="submit" class="ms-2 btn btn-success collapsed" href="{% url "music_app:user_all_tracks" %}"> Your All Tracks</a>
     {% endif %}
     </p>
+      <a type="submit" class="ms-2 btn btn-success collapsed" href="{% url "music_app:favorite_tracks" %}"> Your Favorite Tracks</a>
+      <a type="submit" class="ms-2 btn btn-success collapsed" href="{% url "music_app:user_all_tracks" %}"> Your All Tracks</a>
     <div class="collapse" id="collapseExample" style="">
     <a type="submit" class="ms-1 btn btn-success" href="https://open.spotify.com/"> Spotifyへ</a>
     {% if  user.is_authenticated %}
