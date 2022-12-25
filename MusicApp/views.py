@@ -66,7 +66,7 @@ def get_user_favorite_tracks(request):
 @login_required
 def get_playlist_tracks(request,id):
     playlist_id = id
-    playlist.playlist_tracks(playlist_id=playlist_id,user_id=user_id)
+    playlist.playlist_tracks(playlist_id=playlist_id,user_id=request.user.id)
     playlist_tracks = SpotifyTracks.objects.all()
     tracks = []
     for track in playlist_tracks:
@@ -84,16 +84,18 @@ def user_alltracks(request):
     # {"playlist":[{ name; {id:id,artist:artist} , {name:{id:id,artist:artist}} ,...}]}
     # user_alltracks =playlist.user_all_tracks()
     alltracks =  SpotifyTracks.objects.all()
-    playlists=  SpotifyPlaylist.objects.filter(user_id=user_id)
+    playlists=  SpotifyPlaylist.objects.filter(user_id=request.user.id)
     user_alltracks = alltracks.filter(playlist = playlists)
+    print(user_alltracks)
     count= len(user_alltracks)
+    
     # for track in user_alltracks:
     #     for playlist in playlists:
     #         print(track.playlist.filter(playlist_id = playlist.playlist_id))
     # print(playlists)
     for playlist_data in playlists:
         # print(playlist_data.playlist_id)
-        playlist.playlist_tracks(playlist_id=playlist_data.playlist_id, user_id=user_id)
+        playlist.playlist_tracks(playlist_id=playlist_data.playlist_id, user_id=request.user.id)
     return render(request,'music/user_all_tracks.html',context={
         'user_alltracks':user_alltracks,
         'count':count

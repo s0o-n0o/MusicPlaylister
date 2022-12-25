@@ -60,8 +60,8 @@ class Playlist(GetTrack):
         current_playlist_name = current_playlist.values('playlist_id')
         current_playlist_name = [current_playlist_name[i]['playlist_id'] for i in range(len(current_playlist_name))]
         user_playlists = [user_playlist_info['items'][i]["id"] for i in range(len(user_playlist_info['items']))]
-        print(user_playlists)
-        print(current_playlist_name)
+        # print(user_playlists)
+        # print(current_playlist_name)
         # db内にspotifyのプレイリストがないときにカラム作成
         for i in range(len(user_playlist_info['items'])):
             if not user_playlist_info['items'][i]['name'] in current_playlist_name:
