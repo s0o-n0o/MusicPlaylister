@@ -73,7 +73,6 @@ def get_playlist_tracks(request,id):
         if track.playlist.filter(playlist_id=playlist_id):
             tracks.append(track)
     
-    #[ { name; {id:id,artist:artist} , {id:id,artist:artist} ,...} ]
     return render(request, 'music/playlist_tracks.html',context={
         'playlist_tracks':tracks,
     })
@@ -81,7 +80,6 @@ def get_playlist_tracks(request,id):
 
 @login_required
 def user_alltracks(request):
-    # {"playlist":[{ name; {id:id,artist:artist} , {name:{id:id,artist:artist}} ,...}]}
     # user_alltracks =playlist.user_all_tracks()
     alltracks =  SpotifyTracks.objects.all()
     playlists=  SpotifyPlaylist.objects.filter(user_id=request.user.id)
