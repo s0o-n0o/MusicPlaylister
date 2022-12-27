@@ -81,9 +81,9 @@ def get_playlist_tracks(request,id):
 @login_required
 def user_alltracks(request):
     # user_alltracks =playlist.user_all_tracks()
-    alltracks =  SpotifyTracks.objects.all()
     playlists=  SpotifyPlaylist.objects.filter(user_id=request.user.id)
-    user_alltracks = alltracks.filter(playlist = playlists)
+    user_alltracks =  SpotifyTracks.objects.filter(playlist=playlists)
+    # user_alltracks = alltracks.filter(playlist = playlists)
     print(user_alltracks)
     count= len(user_alltracks)
     
