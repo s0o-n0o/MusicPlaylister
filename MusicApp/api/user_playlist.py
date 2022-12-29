@@ -37,8 +37,8 @@ class Playlist(GetTrack):
 
     #全プレイリスト取得
     def get_playlist(self,id) -> dict:
-
         def differential_adjustment(current_db_playlists, spotify_playlists):
+        # 削除されたプレイリストを更新時にDBから削除する
             delete_list = []
             for db in current_db_playlists:
                 existflag = False
@@ -50,18 +50,13 @@ class Playlist(GetTrack):
             for delete in delete_list:
                 SpotifyPlaylist.objects.filter(playlist_id = delete).delete()
 
-
         user_id =self.spotify.me()['id']
-        # print(user_id)
         current_playlist = SpotifyPlaylist.objects.filter(user_id=id) #db内
         user_playlist_info = self.spotify.user_playlists(user=user_id) #spotify内
-        # print(current_playlist_name)
-        # print(user_playlist_info)
         current_playlist_name = current_playlist.values('playlist_id')
         current_playlist_name = [current_playlist_name[i]['playlist_id'] for i in range(len(current_playlist_name))]
         user_playlists = [user_playlist_info['items'][i]["id"] for i in range(len(user_playlist_info['items']))]
-        # print(user_playlists)
-        # print(current_playlist_name)
+
         # db内にspotifyのプレイリストがないときにカラム作成
         for i in range(len(user_playlist_info['items'])):
             if not user_playlist_info['items'][i]['name'] in current_playlist_name:
