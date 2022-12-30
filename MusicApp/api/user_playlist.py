@@ -87,10 +87,11 @@ class Playlist(GetTrack):
                 if playlist_tracks['items'][i]['track'] == None:
                     continue
                 else:
-                    artist,create = SpotifyArtist.objects.get_or_create(
-                        artist_id = playlist_tracks['items'][i]['track']['artists'][0]['id'],
-                        artist_name= playlist_tracks['items'][i]['track']['artists'][0]['name'],
-                        )
+                    if not SpotifyArtist.objects.exists(artist_id=playlist_tracks['items'][i]['track']['artists'][0]['id']):
+                        artist,create = SpotifyArtist.objects.get_or_create(
+                            artist_id = playlist_tracks['items'][i]['track']['artists'][0]['id'],
+                            artist_name= playlist_tracks['items'][i]['track']['artists'][0]['name'],
+                            )
                     playlist_track_id = playlist_tracks['items'][i]['track']['id'] #id取得
                     playlist_track_feature = self.get_track_feature(playlist_track_id)
 
