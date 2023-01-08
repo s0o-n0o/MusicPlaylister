@@ -76,22 +76,24 @@ class Playlist(GetTrack):
             
 
 
-    #プレイリスト内の全曲取得
+    #指定されたプレイリスト内のトラックを取得
     def playlist_tracks(self,playlist_id,user_id) -> list:
-        playlist_tracks = self.spotify.playlist_items(playlist_id=playlist_id)
-        playlist = SpotifyPlaylist.objects.get(playlist_id=playlist_id,user_id=user_id)
+        playlist_tracks = self.spotify.playlist_items(playlist_id=playlist_id) #spotifyのプレイリストのトラックを取得
+        playlist = SpotifyPlaylist.objects.get(playlist_id=playlist_id,user_id=user_id) #db内のプレイリストを取得
+        
         current_tracks = SpotifyTracks.objects.filter(playlist=playlist)
-
         if not len(current_tracks)==len(playlist_tracks['items']):
             for i in range(len(playlist_tracks['items'])):
                 if playlist_tracks['items'][i]['track'] == None:
                     continue
                 else:
-                    if not SpotifyArtist.objects.exists(artist_id=playlist_tracks['items'][i]['track']['artists'][0]['id']):
-                        artist,create = SpotifyArtist.objects.get_or_create(
+                    if not SpotifyArtist.objects.filter(artist_id = playlist_tracks['items'][i]['track']['artists'][0]['id']).exists():
+                        artist,create = SpotifyArtist.objects.create(
                             artist_id = playlist_tracks['items'][i]['track']['artists'][0]['id'],
                             artist_name= playlist_tracks['items'][i]['track']['artists'][0]['name'],
                             )
+                    else:
+                        artist = SpotifyArtist.objects.get(artist_id=playlist_tracks['items'][i]['track']['artists'][0]['id'])
                     playlist_track_id = playlist_tracks['items'][i]['track']['id'] #id取得
                     playlist_track_feature = self.get_track_feature(playlist_track_id)
 
