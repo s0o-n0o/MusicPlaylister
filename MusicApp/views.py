@@ -24,7 +24,6 @@ def home(request):
     if user_id == None:
         return HttpResponseRedirect('/user_login')
     playlist = Playlist(user_id=user_id,email=user_email)
-    request.session['playlist'] = playlist
     playlist.get_playlist(id=user_id) #dict
     playlists=SpotifyPlaylist.objects.filter(user_id=user_id)
     return render(request, 'music/home.html',context={
@@ -33,7 +32,7 @@ def home(request):
 
 @login_required
 def create(request):
-    playlist=request.session.get('playlist')
+    playlist = Playlist(user_id=request.user.id,email=request.user.email)
     if request.method == "POST":
         artist_list = request.POST.getlist("artist")
         playlist_name = request.POST["playlist_name"]
@@ -58,7 +57,7 @@ def create(request):
 
 @login_required
 def get_user_favorite_tracks(request):
-    playlist=request.session.get('playlist')
+    playlist = Playlist(user_id=request.user.id,email=request.user.email)
     favorite_tracks =playlist.get_all_saved_tracks() #お気に入りの全曲
     return render(request,'music/favorite_tracks.html',context={
         'favorite_tracks':favorite_tracks,
@@ -66,7 +65,7 @@ def get_user_favorite_tracks(request):
 
 @login_required
 def get_playlist_tracks(request,id):
-    playlist=request.session.get('playlist')
+    playlist = Playlist(user_id=request.user.id,email=request.user.email)
     playlist_id = id
     playlist.playlist_tracks(playlist_id=playlist_id,user_id=request.user.id)
     playlist_tracks = SpotifyTracks.objects.all()
@@ -82,20 +81,18 @@ def get_playlist_tracks(request,id):
 
 @login_required
 def user_alltracks(request):
-    playlist=request.session.get('playlist')
-    print(playlist)
+    playlist = Playlist(user_id=request.user.id,email=request.user.email)
     playlists=  SpotifyPlaylist.objects.filter(user_id=request.user.id)
     all_playlist_tracks ={}
     for playlist_data in playlists:
         playlist.playlist_tracks(playlist_id=playlist_data.playlist_id, user_id=request.user.id)
         user_alltracks = SpotifyTracks.objects.filter(playlist = playlist_data)
         all_playlist_tracks[playlist_data] = user_alltracks
-    print(all_playlist_tracks)
-    count= len(user_alltracks)
-    
+    # count= len(all_playlist_tracks.keys())
+    print(all_playlist_tracks.values())
+
     return render(request,'music/user_all_tracks.html',context={
-        'user_alltracks':user_alltracks,
-        'count':count
+        'user_alltracks':all_playlist_tracks,
     })
 
 def play_track(request,track_id):

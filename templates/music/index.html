@@ -44,13 +44,13 @@
       <button type="button" class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#createModal" data-bs-whatever="@getbootstrap">+Create!</button>
       <ul class="nav nav-tabs">
         <li class="nav-item">
-            <a type="submit" class="nav-link ms-1 text-bg-success" href="{% url "music_app:home"%}"> Your Playlists </a>
+            <a type="submit" class="nav-link ms-1 text-bg-success" href="{% url "music_app:home"%}">  Playlists </a>
         </li>
         <li class="nav-item">
-            <a type="submit" class="nav-link  ms-1 text-bg-success " href="{% url "music_app:favorite_tracks" %}"> Your Favorite Tracks</a>
+            <a type="submit" class="nav-link  ms-1 text-bg-success " href="{% url "music_app:favorite_tracks" %}"> Favorite Tracks</a>
         </li>
         <li class="nav-item">
-            <a type="submit" class=" nav-link ms-1 text-bg-success " href="{% url "music_app:user_all_tracks" %}"> Your All Tracks</a>
+            <a type="submit" class=" nav-link ms-1 text-bg-success " href="{% url "music_app:user_all_tracks" %}"> All Tracks</a>
         </li>
       </ul>
       {% comment %} <a type="submit" class="ms-2 btn btn-success collapsed" href="{% url 'music_app:create' %}"> Create!</a> {% endcomment %}
