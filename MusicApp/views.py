@@ -53,7 +53,9 @@ def create(request):
         playlist.create_playlist(artist_list=artist_list, playlist_name=playlist_name)
 
         return HttpResponseRedirect('/home')
-    return render(request, "music/create.html")
+
+    return render(request, "music/create.html",context={
+    })
 
 @login_required
 def get_user_favorite_tracks(request):

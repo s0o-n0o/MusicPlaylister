@@ -1,36 +1,38 @@
 {% extends 'music/index.html' %}
 {% block content%}
     <!-- Content here -->
-        <div class="container-fluid">
-        <form method='POST'> {% csrf_token %}
-            <div class="col-md-6 form-group">
-            {% if messages %}
-                {% for message in messages %}
-                    <div>{{message}}</div>
-                {% endfor%}
-            {% endif %}
-            <label class='text-white'>アーティスト</label>
-            <input type="text" class="form-control " placeholder="アーティスト名を入力" name="artist">
-            <input type="text" class="form-control " placeholder="アーティスト名を入力" name="artist">
-            <input type="text" class="form-control " placeholder="アーティスト名を入力" name="artist">
-            <a class="btn btn-success collapsed" data-bs-toggle="collapse" href="#collapseExample2" role="button" aria-expanded="false" aria-controls="collapseExample2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
-            More...
-            </font></font></a>    
-            <div class="collapse" id="collapseExample2" style="">
-            <input type="text" class="form-control " placeholder="アーティスト名を入力" name="artist">
-            <input type="text" class="form-control " placeholder="アーティスト名を入力" name="artist">
-            <input type="text" class="form-control " placeholder="アーティスト名を入力" name="artist">
-            </div>
-            </div>
-        <div class="col-md-6 form-group">
-            <label class='mt-3 text-white'>プレイリスト名</label>
-            <input type="text" class="form-control " placeholder="プレイリスト名を入力" name="playlist_name">
+        <div class="mt-3 container-fluid ">
+            <form method='POST'> {% csrf_token %}
+                <div class="col-md-6 form-group mx-auto">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div>{{message}}</div>
+                        {% endfor%}
+                    {% endif %}
+                    <label class='text-white'>Artist-Name</label>
+                    <input type="text" class="form-control " placeholder="アーティスト名を入力" name="artist">
+                    <input type="text" class="form-control " placeholder="アーティスト名を入力" name="artist">
+                    <input type="text" class="form-control " placeholder="アーティスト名を入力" name="artist">
+                    <input type="text" class="form-control " placeholder="アーティスト名を入力" name="artist">
+                    <a class="btn btn-success collapsed" data-bs-toggle="collapse" href="#collapseExample2" role="button" aria-expanded="false" aria-controls="collapseExample2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+                    More...</font></font></a>    
+                    <div class="collapse" id="collapseExample2" style="">
+                        <input type="text" class="form-control " placeholder="アーティスト名を入力" name="artist">
+                        <input type="text" class="form-control " placeholder="アーティスト名を入力" name="artist">
+                        <input type="text" class="form-control " placeholder="アーティスト名を入力" name="artist">
+                        <input type="text" class="form-control " placeholder="アーティスト名を入力" name="artist">
+                        <input type="text" class="form-control " placeholder="アーティスト名を入力" name="artist">
+                        <input type="text" class="form-control " placeholder="アーティスト名を入力" name="artist">
+                    </div>
+                </div>
+                <div class="col-md-6 form-group mx-auto">
+                    <label class='mt-3 text-white'>Playlist-Name</label>
+                    <input type="text" class="form-control " placeholder="プレイリスト名を入力" name="playlist_name">
+                </div>
+                <div class="d-flex justify-content-left">
+                    <button type="submit" class="mt-3 mb-5 btn btn-success text-white mx-auto"  style="width: 200px; font-size:13pt;">Create ! </button>
+                </div>
+            </form>
         </div>
-        <div class="d-flex justify-content-left">
-        <button type="submit" class="btn btn-success text-white">作成する </button>
-        </div>
-        </div>
-        </form>
-        <a type="submit" class="ms-2 mt-4 btn btn-success" href="{% url 'music_app:home' %}"> Home</a>
 
 {% endblock content%}

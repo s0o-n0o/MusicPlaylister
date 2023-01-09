@@ -1,56 +1,17 @@
 {% extends "music/index.html" %}
 {% block content %}
-<h1>ようこそ、MusicPlayLister へ</h1>
-<h2 class="ms-5">アーティストの人気の曲でプレイリストが作れます</h2>
+        {% if  user.is_authenticated %}
+            <a type="submit" class="ms-1 btn btn-success" href="{% url 'user:user_logout'%}"> ログアウト</a>
+            <a type="submit" class="ms-1 btn btn-success" href="{% url 'user:user_edit'%}">ユーザ情報更新</a>
+        {% else %}
 
-{% if user.is_authenticated%}
-<h4 class="mt-5">
-アーティストの人気の曲でプレイリストを作成する
-<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createModal" data-bs-whatever="@getbootstrap">+Create!</button>
-   {% load static %}
-            <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                <div class="modal-header bg-dark">
-                    <h1 class="modal-title fs-5" id="createModalLabel">New Playlist</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body bg-dark ">
-                    <div class="container-fluid">
-                    <form method='POST'> {% csrf_token %}
-                        <div class="col-md-6 form-group">
-                        {% if messages %}
-                            {% for message in messages %}
-                                <div>{{message}}</div>
-                            {% endfor%}
-                        {% endif %}
-                        <label class='text-white'>アーティスト</label>
-                        <input type="text" class="form-control " placeholder="アーティスト名を入力" name="artist">
-                    <input type="text" class="form-control " placeholder="アーティスト名を入力" name="artist">
-                    <input type="text" class="form-control " placeholder="アーティスト名を入力" name="artist">
-                    <a class="btn btn-success collapsed" data-bs-toggle="collapse" href="#collapseExample2" role="button" aria-expanded="false" aria-controls="collapseExample2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
-                    More...
-                    </font></font></a>    
-                    <div class="collapse" id="collapseExample2" style="">
-                    <input type="text" class="form-control " placeholder="アーティスト名を入力" name="artist">
-                    <input type="text" class="form-control " placeholder="アーティスト名を入力" name="artist">
-                    <input type="text" class="form-control " placeholder="アーティスト名を入力" name="artist">
-                    </div>
-                    </div>
-                <div class="col-md-6 form-group">
-                    <label class='mt-3 text-white'>プレイリスト名</label>
-                    <input type="text" class="form-control " placeholder="プレイリスト名を入力" name="playlist_name">
-                </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-success">Create!</button>
-                </div>
-                </form>
-                </div>
-            </div>
-            </div>
-            <script type="text/javascript" src="{% static 'js/create_playlist.js' %}"></script>
-</h4>
-{% endif %}
+                        <h1 class="text-center display-3">ようこそ、MusicPlayLister へ</h1>
+        <h2 class="text-center display-5">アーティストの人気の曲でプレイリストが作れます</h2>
+        <h2 class="text-center display-6">ログイン/登録する
+            <a type="submit" class="ms-1 btn btn-success" href="{% url 'user:user_login'%}"> ログイン</a>
+            <a type="submit" class="ms-1 btn btn-success" href="{% url 'user:regist'%}"> 登録</a>
+        </h2>
+        {% endif %}
+
+
 {% endblock%}
