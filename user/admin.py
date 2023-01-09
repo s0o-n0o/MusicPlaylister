@@ -1,7 +1,6 @@
-# from django.contrib import admin
-# from django.contrib.auth.admin import UserAdmin
-# from django.contrib.auth import get_user_model
-# from .forms import UserCreationForm,UserChangeForm
+from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
+from .models import Users
 # # Register your models here.
 
 # User = get_user_model()
@@ -20,4 +19,4 @@
 #     ('ユーザ情報',{'fields':('usename',"email",'password','confirm_password')}),
 # )
 
-# admin.site.register(User,CustomizeUserAdmin)
+admin.site.register(Users)

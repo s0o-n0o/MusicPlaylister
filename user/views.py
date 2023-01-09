@@ -17,16 +17,10 @@ def user_login(request):
         email= login_form.cleaned_data.get('email')
         password = login_form.cleaned_data.get('password')
         user = authenticate(email=email,password=password)
-        # users = Users.objects.get(email=email)
-        # username=users.username
         if user:
             if user.is_active:
                 login(request,user)
-                messages.success(request,'ログインしました')
-                # param= {'username':username}
-                # query_string_parameter = urlencode(param)
-                # url = 'http://127.0.0.1:8000/home'
-                # new_url = url+'?'+query_string_parameter
+                # messages.success(request,'ログインしました')
                 return redirect('music_app:home')
             else:
                 messages.warning(request,'ユーザがアクティブではありません')
@@ -39,7 +33,7 @@ def user_login(request):
 @login_required
 def user_logout(request):
     logout(request)
-    messages.success(request,'ログアウトしました')
+    # messages.success(request,'ログアウトしました')
     return redirect('music_app:base')
 
 def regist(request):
@@ -47,22 +41,22 @@ def regist(request):
     if regist_form.is_valid():
         try:
             regist_form.save()
-            return redirect('user:activate_user') #注意
+            return redirect('user:user_login') #注意
         except ValidationError as e:
             regist_form.add_error('password',e)
     return render(request,'user/regist.html',context={
         'regist_form':regist_form,
     })
 
-def activate_user(request,token):
-    user_activate_token = UserActivateTokens.objects.activate_user_by_token(token)
-    return render(request,'user/activate_user.html')
+# def activate_user(request,token):
+#     user_activate_token = UserActivateTokens.objects.activate_user_by_token(token)
+#     return render(request,'user/activate_user.html')
 
 @login_required
 def user_edit(request):
     user_edit_form= forms.UserEditForm(request.POST or None, instance=request.user)
     if  user_edit_form.is_valid():
-        messages.success(request,'更新完了しました')
+        # messages.success(request,'更新完了しました')
         user_edit_form.save()
     return render(request,'user/user_edit.html',context={
         'user_edit_form':user_edit_form,
@@ -74,7 +68,7 @@ def change_password(request):
     if password_change_form.is_valid():
         try:
             password_change_form.save()
-            messages.success(request,'パスワード更新完了しました')
+            # messages.success(request,'パスワード更新完了しました')
             update_session_auth_hash(request,request.user)
         except ValidationError as e:
             password_change_form.add_error('password',e)

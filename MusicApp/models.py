@@ -6,11 +6,14 @@ from user.models import Users
 
 class SpotifyPlaylist(models.Model):
     user  = models.ForeignKey("user.Users", on_delete=models.CASCADE)
-    playlist_id = models.CharField(max_length=255,primary_key=True)
+    playlist_id = models.CharField(max_length=255)
     playlist_name = models.CharField(max_length = 255)
 
     class Meta:
         db_table = 'spotify_playlist'
+    
+    def __str__(self) -> str:
+        return self.playlist_name
 
 class SpotifyArtist(models.Model):
     artist_id = models.CharField(max_length=255,primary_key=True)
@@ -18,6 +21,9 @@ class SpotifyArtist(models.Model):
 
     class Meta:
         db_table = 'spotify_artist'
+
+    def __str__(self) -> str:
+        return self.artist_name
 
 class SpotifyTracks(models.Model):
     playlist =models.ManyToManyField(SpotifyPlaylist)
@@ -33,3 +39,7 @@ class SpotifyTracks(models.Model):
 
     class Meta:
         db_table = 'spotify_tracks'
+
+
+    def __str__(self) -> str:
+        return self.track_name

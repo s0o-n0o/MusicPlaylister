@@ -1,6 +1,7 @@
 {% extends 'music/index.html'%}
 {% block content%}
-<h1 class= 'ms-2'>   Your All Playlist Tracks </h1>
+<h1 class= 'ms-2'>   All Tracks </h1>
+    {% comment %} <p>{{count}}曲</p> {% endcomment %}
     <table class="table table-hover table-dark ">
     <thead>
         <tr>
@@ -10,7 +11,7 @@
         <th scope="col"  style="width: 3%">#</th>
         <th scope="col" style="width: 25%">track_name</th>
         <th scope="col" style="width: 20%">artist_name</th>
-        <th scope="col" style="width: 30%">acoustickness</th>
+        <th scope="col" style="width: 25%">acoustickness</th>
         <th scope="col" style="width: 30%">danceability</th>
         <th scope="col" style="width: 30%">energy</th>
         <th scope="col" style="width: 30%">valence</th>
@@ -20,7 +21,11 @@
     </thead>
     <tbody>
 {% comment %} # {"playlist":[{ name; {id:id,artist:artist} , {name:{id:id,artist:artist}} ,...}]} {% endcomment %}
-    {% for  track in user_alltracks %}
+    {% for  playlist,tracks in user_alltracks.items %}
+            <tr>
+            <td>{{playlist.playlist_name}}</td>
+            {% for track in tracks %}
+            </tr>
                 <tr class="table-active">
                     <td>{{forloop.counter}}.</td> 
                     <td>{{track.track_name}}</td>
@@ -32,6 +37,7 @@
                     <td>{{track.loudness}}</td>
                     <td>{{track.tempo}}</td>
                 </tr>
+            {% endfor %}
     {% endfor %}
     </tbody>
     </table>
