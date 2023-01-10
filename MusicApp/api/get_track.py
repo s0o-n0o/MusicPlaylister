@@ -40,17 +40,5 @@ class GetTrack(object):
     #     top_tracks = self.spotify.current_user_top_tracks(time_range='medium_term', limit=20, offset=0)
     #     print(top_tracks)
 
-            
-
-            
-
-
-
-
-
-# get_track = GetTrack(username="lcl").search_artist_id("vaundy")
-# print(get_track)
-
-# test
-# search_artist_id("マカロニえんぴつ")
+    #userの最近再生したトラックを取得　
 

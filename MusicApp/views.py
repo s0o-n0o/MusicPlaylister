@@ -19,12 +19,11 @@ def base(request):
 @login_required
 def home(request):
     user_id = request.user.id #重複する可能性あり
-    # print(user_id)
     user_email= request.user.email #ユニーク
     if user_id == None:
         return HttpResponseRedirect('/user_login')
     playlist = Playlist(user_id=user_id,email=user_email)
-    playlist.get_playlist(id=user_id) #dict
+    playlist.get_playlist(user_id=user_id) #dict
     playlists=SpotifyPlaylist.objects.filter(user_id=user_id)
     return render(request, 'music/home.html',context={
         "playlists":playlists ,#dict
@@ -61,6 +60,11 @@ def create(request):
 def get_user_favorite_tracks(request):
     playlist = Playlist(user_id=request.user.id,email=request.user.email)
     favorite_tracks =playlist.get_all_saved_tracks() #お気に入りの全曲
+    # favorite_tracks=  SpotifyTracks.playlist(plylist_id=f'{request.user.id}_Favorite')
+    favorite_list = SpotifyPlaylist.objects.get(playlist_id=f'{request.user.id}_Favorite').id
+    favorite_tracks = SpotifyTracks.objects.filter(playlist=favorite_list)
+    print(favorite_tracks)    
+
     return render(request,'music/favorite_tracks.html',context={
         'favorite_tracks':favorite_tracks,
     })
@@ -69,7 +73,7 @@ def get_user_favorite_tracks(request):
 def get_playlist_tracks(request,id):
     playlist = Playlist(user_id=request.user.id,email=request.user.email)
     playlist_id = id
-    playlist.playlist_tracks(playlist_id=playlist_id,user_id=request.user.id)
+    playlist.playlist_tracks(playlist_id=playlist_id)
     playlist_tracks = SpotifyTracks.objects.all()
     tracks = []
     for track in playlist_tracks:
@@ -87,7 +91,7 @@ def user_alltracks(request):
     playlists=  SpotifyPlaylist.objects.filter(user_id=request.user.id)
     all_playlist_tracks ={}
     for playlist_data in playlists:
-        playlist.playlist_tracks(playlist_id=playlist_data.playlist_id, user_id=request.user.id)
+        playlist.playlist_tracks(playlist_id=playlist_data.playlist_id)
         user_alltracks = SpotifyTracks.objects.filter(playlist = playlist_data)
         all_playlist_tracks[playlist_data] = user_alltracks
     # count= len(all_playlist_tracks.keys())
