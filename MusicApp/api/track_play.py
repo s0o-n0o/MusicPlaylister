@@ -10,4 +10,10 @@ class TrackPlay(object):
         self.user_id = user_id
         self.email  = email
         
+    def pause():
+        pass
+    
+    def next():
+        pass
+    
         

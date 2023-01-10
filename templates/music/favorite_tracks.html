@@ -4,16 +4,30 @@
     <table class="table table-dark">
     <thead>
         <tr>
-        <th scope="col"  style="width: 2%">#</th>
-        <th scope="col">track_name</th>
+        <th scope="col"  style="width: 3%">#</th>
+        <th scope="col" style="width: 25%">track_name</th>
+        <th scope="col" style="width: 20%">artist_name</th>
+        <th scope="col" style="width: 25%">acoustickness</th>
+        <th scope="col" style="width: 30%">danceability</th>
+        <th scope="col" style="width: 30%">energy</th>
+        <th scope="col" style="width: 30%">valence</th>
+        <th scope="col" style="width: 30%">loudness</th>
+        <th scope="col" style="width: 90%">tempo</th>
         </tr>
     </thead>
     <tbody>
-    {% for favorite_track_name  in favorite_tracks %}
-    <tr class="table-active">
-        <td>{{forloop.counter}}</td> 
-        <td>{{favorite_track_name}}</td>
-    </tr>
+    {% for track  in favorite_tracks %}
+        <tr class="table-active">
+            <td>{{forloop.counter}}.</td> 
+            <td>{{track.track_name}}</td>
+            <td>{{track.artist.artist_name}}</td>
+            <td>{{track.acousticness}}</td>
+            <td>{{track.danceability}}</td>
+            <td>{{track.energy}}</td>
+            <td>{{track.valence}}</td>
+            <td>{{track.loudness}}</td>
+            <td>{{track.tempo}}</td>
+        </tr>
     {% endfor %}
     </tbody>
     </table>

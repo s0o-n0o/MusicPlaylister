@@ -25,18 +25,48 @@ class Playlist(GetTrack):
 
     #お気に入りの曲取得
     def get_all_saved_tracks(self,limit_step=50) -> list:
-        tracks = []
+        #favorite_tracksのプレイリストdbを作成
+        playlist,created= SpotifyPlaylist.objects.get_or_create(
+                                        user = Users.objects.get(email=self.email),
+                                        playlist_name='Favorite Tracks',
+                                        playlist_id= f'{self.user_id}_Favorite' #userid_Favorite <- playlist_id
+                                        )
+        
         for offset in range(0, 1000, limit_step):
-            response = self.spotify.current_user_saved_tracks(limit=limit_step, offset=offset,)
+            response = self.spotify.current_user_saved_tracks(limit=limit_step, offset=offset,) #お気に入りの曲データを取得
             if len(response) == 0:
                 break
+
             for i in range(len(response['items'])):
-                tracks.append(response['items'][i]['track']['name'])
-        return tracks
+                if response['items'][i]['track'] == None :
+                    continue
+                else:
+                    if not SpotifyArtist.objects.filter(artist_id = response['items'][i]['track']['artists'][0]['id']).exists():
+                        artist,create = SpotifyArtist.objects.create(
+                            artist_id = response['items'][i]['track']['artists'][0]['id'],
+                            artist_name= response['items'][i]['track']['artists'][0]['name'],
+                            )
+                    else:
+                        artist = SpotifyArtist.objects.get(artist_id=response['items'][i]['track']['artists'][0]['id'])
+                    playlist_track_id = response['items'][i]['track']['id'] #id取得
+                    playlist_track_feature = self.get_track_feature(playlist_track_id)
+
+                    track,created = SpotifyTracks.objects.get_or_create(
+                        track_id= response['items'][i]['track']['id'],
+                        track_name= response['items'][i]['track']['name'],
+                        artist =  artist,
+                        danceability=playlist_track_feature['danceability'],
+                        energy=playlist_track_feature['energy'],
+                        valence=playlist_track_feature['valence'],
+                        acousticness=playlist_track_feature['acousticness'],
+                        loudness=playlist_track_feature['loudness'],
+                        tempo=playlist_track_feature['tempo'],
+                        )
+                    track.playlist.add(playlist)
 
 
     #全プレイリスト取得
-    def get_playlist(self,id) -> dict:
+    def get_playlist(self,user_id) -> dict:
         def differential_adjustment(current_db_playlists, spotify_playlists):
         # 削除されたプレイリストを更新時にDBから削除する
             delete_list = []
@@ -50,9 +80,9 @@ class Playlist(GetTrack):
             for delete in delete_list:
                 SpotifyPlaylist.objects.filter(playlist_id = delete).delete()
 
-        user_id =self.spotify.me()['id']
-        current_playlist = SpotifyPlaylist.objects.filter(user_id=id) #db内
-        user_playlist_info = self.spotify.user_playlists(user=user_id) #spotify内
+        sp_user_id =self.spotify.me()['id']
+        current_playlist = SpotifyPlaylist.objects.filter(user_id=user_id) #db内
+        user_playlist_info = self.spotify.user_playlists(user=sp_user_id) #spotify内
         current_playlist_name = current_playlist.values('playlist_id')
         current_playlist_name = [current_playlist_name[i]['playlist_id'] for i in range(len(current_playlist_name))]
         user_playlists = [user_playlist_info['items'][i]["id"] for i in range(len(user_playlist_info['items']))]
@@ -77,9 +107,9 @@ class Playlist(GetTrack):
 
 
     #指定されたプレイリスト内のトラックを取得
-    def playlist_tracks(self,playlist_id,user_id) -> list:
+    def playlist_tracks(self,playlist_id) -> list:
         playlist_tracks = self.spotify.playlist_items(playlist_id=playlist_id) #spotifyのプレイリストのトラックを取得
-        playlist = SpotifyPlaylist.objects.get(playlist_id=playlist_id,user_id=user_id) #db内のプレイリストを取得
+        playlist = SpotifyPlaylist.objects.get(playlist_id=playlist_id,user_id=self.user_id) #db内のプレイリストを取得
         
         current_tracks = SpotifyTracks.objects.filter(playlist=playlist)
         if not len(current_tracks)==len(playlist_tracks['items']):
@@ -109,12 +139,3 @@ class Playlist(GetTrack):
                         tempo=playlist_track_feature['tempo'],
                         )
                     track.playlist.add(playlist)
-
-    #ユーザのプレイリスト内にある全曲
-    def user_all_tracks(self) -> dict:
-        all_tracks = {}
-        playlist= self.get_playlist()
-        for playlist_name,playlist_id in playlist.items():
-            all_tracks[playlist_name] = self.playlist_tracks(playlist_id=playlist_id)
-        # {"playlist":[{ name; {id:id,artist:artist}} ,{name:{id:id,artist:artist} ,...}], [{name; {id:id,artist:artist} ,{id:id,artist:artist} ,...}]}
-        return all_tracks
