@@ -1,17 +1,23 @@
 {% extends "music/index.html" %}
+{% load static %}
+
+
 {% block content %}
+<link rel="stylesheet" href="{% static 'css/base.css' %}">
         {% if  user.is_authenticated %}
+            
             <a type="submit" class="ms-1 btn btn-success" href="{% url 'user:user_logout'%}"> ログアウト</a>
             <a type="submit" class="ms-1 btn btn-success" href="{% url 'user:user_edit'%}">ユーザ情報更新</a>
         {% else %}
-
-                        <h1 class="text-center display-3">ようこそ、MusicPlayLister へ</h1>
+    <div>
+        <h1 class="text-center display-3">ようこそ、MusicPlayLister へ</h1>
         <h2 class="text-center display-5">アーティストの人気の曲でプレイリストが作れます</h2>
         <h2 class="text-center display-6">ログイン/登録する
             <a type="submit" class="ms-1 btn btn-success" href="{% url 'user:user_login'%}"> ログイン</a>
             <a type="submit" class="ms-1 btn btn-success" href="{% url 'user:regist'%}"> 登録</a>
         </h2>
         {% endif %}
+    </div>
 
 
 {% endblock%}
