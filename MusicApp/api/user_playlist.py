@@ -3,6 +3,7 @@ from .get_track import GetTrack
 from MusicApp.models import SpotifyArtist,SpotifyPlaylist,SpotifyTracks
 from user.models import Users
 from pprint import pprint
+import random
 
 class Playlist(GetTrack):
     #トークン取得
@@ -97,7 +98,9 @@ class Playlist(GetTrack):
                                         )
         differential_adjustment(current_db_playlists=current_playlist_name,spotify_playlists=user_playlists)
         
+    def random_playlist(self):
         
+
 
         
             
