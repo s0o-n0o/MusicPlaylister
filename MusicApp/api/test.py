@@ -3,6 +3,8 @@ import spotipy
 import spotipy.util as util
 import info
 from spotipy.oauth2 import SpotifyOAuth
+from models import SpotifyArtist,SpotifyPlaylist,SpotifyTracks
+
 # from user_playlist import Playlist
 
 
@@ -16,9 +18,10 @@ user_playlist_info = sp.user_playlists(user=user_id)['items']
 tracks = sp.user_playlist_tracks(playlist_id="01ujVQzL0iEUVDafFXBJe9")
 # sp_recommend= sp.featured_playlists()#おすすめのプレイリスト　
 # pl_cover = sp.playlist_cover_image(playlist_id="01ujVQzL0iEUVDafFXBJe9") #プレイリストのカバー画像取得
-
+tracks = SpotifyTracks.objects.get(pk=1)
+print(tracks)
 # features = sp.audio_analysis(track_id='4b6txnDj8rrMgw3gXlFP6x')
-sp.start_playback(device_id="30cdf9d1c06ea770e45246d0889ce391b3fa2f8d",uris = ['spotify:track:2FZXuCw75FYVfiNHtFQON9'])
+# sp.start_playback(device_id="30cdf9d1c06ea770e45246d0889ce391b3fa2f8d",uris = ['spotify:track:2FZXuCw75FYVfiNHtFQON9'])
 # devices =sp.devices() #デバイスID取得
 # print(devices)
 # for i in range(len(features)):
