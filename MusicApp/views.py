@@ -62,25 +62,17 @@ def random_playlist_create(request):
     playlist = Playlist(user_id=request.user.id,email=request.user.email)
     if request.method == "POST":
         playlist_name = request.POST["playlist_name"]
-
         #valid
-        artist_none_flag = False
-        for i in range(len(artist_list)):
-            if artist_list[i] != "":
-                artist_none_flag = True
-        if artist_none_flag == False:
-            messages.warning(request,'アーティストを入力してください')
+
+
         if playlist_name == "":
             messages.error(request,'プレイリスト名を入力してください')
-        if  artist_none_flag==False or playlist_name == "":    
             return render(request, "music/create.html")
-
         #success
-        playlist.create_playlist(artist_list=artist_list, playlist_name=playlist_name)
-
+        playlist.user_random_playlist(playlist_name=playlist_name)
         return HttpResponseRedirect('/home')
 
-    return render(request, "music/create.html",context={
+    return render(request, "music/user_randomplaylist_create.html",context={
     })
 
 @login_required
