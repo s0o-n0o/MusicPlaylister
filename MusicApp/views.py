@@ -63,8 +63,6 @@ def random_playlist_create(request):
     if request.method == "POST":
         playlist_name = request.POST["playlist_name"]
         #valid
-
-
         if playlist_name == "":
             messages.error(request,'プレイリスト名を入力してください')
             return render(request, "music/create.html")

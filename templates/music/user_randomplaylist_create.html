@@ -1,30 +1,16 @@
 {% extends 'music/index.html' %}
 {% block content%}
+            <div class="mt-3">
+                <h5>あなたのすべてのプレイリスト内にある曲でランダムに曲を選らんでプレイリストを作成します</h5> 
+            </div>
     <!-- Content here -->
         <div class="mt-3 container-fluid ">
             <form method='POST'> {% csrf_token %}
-                <div class="col-md-6 form-group mx-auto">
                     {% if messages %}
                         {% for message in messages %}
                             <div>{{message}}</div>
                         {% endfor%}
                     {% endif %}
-                    <label class='text-white'>Artist-Name</label>
-                    <input type="text" class="form-control " placeholder="アーティスト名を入力" name="artist">
-                    <input type="text" class="form-control " placeholder="アーティスト名を入力" name="artist">
-                    <input type="text" class="form-control " placeholder="アーティスト名を入力" name="artist">
-                    <input type="text" class="form-control " placeholder="アーティスト名を入力" name="artist">
-                    <a class="btn btn-success collapsed" data-bs-toggle="collapse" href="#collapseExample2" role="button" aria-expanded="false" aria-controls="collapseExample2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
-                    More...</font></font></a>    
-                    <div class="collapse" id="collapseExample2" style="">
-                        <input type="text" class="form-control " placeholder="アーティスト名を入力" name="artist">
-                        <input type="text" class="form-control " placeholder="アーティスト名を入力" name="artist">
-                        <input type="text" class="form-control " placeholder="アーティスト名を入力" name="artist">
-                        <input type="text" class="form-control " placeholder="アーティスト名を入力" name="artist">
-                        <input type="text" class="form-control " placeholder="アーティスト名を入力" name="artist">
-                        <input type="text" class="form-control " placeholder="アーティスト名を入力" name="artist">
-                    </div>
-                </div>
                 <div class="col-md-6 form-group mx-auto">
                     <label class='mt-3 text-white'>Playlist-Name</label>
                     <input type="text" class="form-control " placeholder="プレイリスト名を入力" name="playlist_name">
