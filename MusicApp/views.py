@@ -65,7 +65,7 @@ def random_playlist_create(request):
         #valid
         if playlist_name == "":
             messages.error(request,'プレイリスト名を入力してください')
-            return render(request, "music/create.html")
+            return render(request, "music/user_randomplaylist_create.html")
         #success
         playlist.user_random_playlist(playlist_name=playlist_name)
         return HttpResponseRedirect('/home')

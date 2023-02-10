@@ -1,10 +1,14 @@
 {% extends 'music/index.html' %}
 {% block content%}
+
+    <!-- Content here -->
+        <div class="mt-3 container-fluid ">
+            <div class="mt-3 ">
+                <a type="submit" class="ms-1 btn btn-success" href="{% url 'music_app:create'%}"> Choose Artist</a>
+            </div>
             <div class="mt-3">
                 <h5>あなたのすべてのプレイリスト内にある曲でランダムに曲を選らんでプレイリストを作成します</h5> 
             </div>
-    <!-- Content here -->
-        <div class="mt-3 container-fluid ">
             <form method='POST'> {% csrf_token %}
                     {% if messages %}
                         {% for message in messages %}

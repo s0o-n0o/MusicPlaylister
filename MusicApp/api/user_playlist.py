@@ -99,16 +99,12 @@ class Playlist(GetTrack):
         differential_adjustment(current_db_playlists=current_playlist_name,spotify_playlists=user_playlists)
         
     def user_random_playlist(self,playlist_name):
-        random_artist_list = SpotifyTracks.objects.get(pk=1)
-        self.create_playlist(artist_list=random_artist_list,playlist_name=playlist_name)
+        random_artist_list =[]
+        random_artist_list = SpotifyTracks.objects.get()
+        print(random_artist_list)
+
+        # self.create_playlist(artist_list=random_artist_list,playlist_name=playlist_name)
         
-
-
-        
-            
-
-    
-            
 
 
     #指定されたプレイリスト内のトラックを取得
