@@ -4,11 +4,18 @@
 
 {% block content %}
 <link rel="stylesheet" href="{% static 'css/base.css' %}">
-        {% if  user.is_authenticated %}
-            
-            <a type="submit" class="ms-1 btn btn-success" href="{% url 'user:user_logout'%}"> ログアウト</a>
-            <a type="submit" class="ms-1 btn btn-success" href="{% url 'user:user_edit'%}">ユーザ情報更新</a>
-        {% else %}
+        
+        {% if  user.is_authenticated %}    
+        <div>
+            <h1 class="text-center display-3">ようこそ、MusicPlayListerへ</h1>
+            <h2 class="text-center display-5">Spotifyで好きなアーティストの人気曲で</h2>
+            <h2 class="text-center display-5">プレイリストを簡単に作成することができます</h2>
+            <h2 class="text-center display-6">
+            <a type="submit" class="ms-1 btn btn-success" href="{% url 'music_app:create'%}"  style="width: 200px; font-size:13pt;" > Create！</a>
+            </h2>
+        </div>
+    {% else %}
+
     <div>
         <h1 class="text-center display-3">ようこそ、MusicPlayListerへ</h1>
         <h2 class="text-center display-5">Spotifyで好きなアーティストの人気曲で</h2>
