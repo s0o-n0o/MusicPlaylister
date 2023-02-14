@@ -13,7 +13,7 @@ class Playlist(GetTrack):
         self.email  = email
 
     #プレイリスト作成
-    def create_playlist(self,artist_list, playlist_name):
+    def create_playlist(self,artist_list,playlist_name):
         user_id = self.spotify.me()['id']  # get user_id
         playlists = self.spotify.user_playlist_create(user_id, playlist_name)  # create playlist
         playlist_id = playlists["id"] #get playlist_id
@@ -23,6 +23,12 @@ class Playlist(GetTrack):
             artist_id = self.search_artist_id(artist)
             track_ids = list(self.get_artist_top_track(artist_id).values())
             results = self.spotify.user_playlist_add_tracks(user_id, playlist_id, track_ids)
+
+    def playlist_add_tracks(self,user_id,track_ids,playlist_id):
+        results = self.spotify.user_playlist_add_tracks(user_id, playlist_id, track_ids)
+        
+
+
 
     #お気に入りの曲取得
     def get_all_saved_tracks(self,limit_step=50):
@@ -102,8 +108,8 @@ class Playlist(GetTrack):
     
     def user_random_playlist(self,playlist_name):
         random_artist_list =[]
-        random_artist_list = SpotifyTracks.objects.get()
-        print(random_artist_list)
+        random_artist_list = SpotifyTracks.objects.all()
+        print(random_artist_list[0].artist)
 
         # self.create_playlist(artist_list=random_artist_list,playlist_name=playlist_name)
         

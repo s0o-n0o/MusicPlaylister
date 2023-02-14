@@ -50,6 +50,11 @@ def create(request):
 
         #success
         playlist.create_playlist(artist_list=artist_list, playlist_name=playlist_name)
+        for artist in artist_list:
+            if artist=='':
+                break
+            artist_id = playlist.search_artist_id(artist)
+            track_ids = list(playlist.get_artist_top_track(artist_id).values())
 
         return HttpResponseRedirect('/home')
 
