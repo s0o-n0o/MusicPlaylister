@@ -18,10 +18,11 @@ def base(request):
 
 @login_required
 def home(request):
-    user_id = request.user.id #重複する可能性あり
+    user_id = request.user.id      #重複する可能性あり
     user_email= request.user.email #ユニーク
     if user_id == None:
         return HttpResponseRedirect('/user_login')
+        
     playlist = Playlist(user_id=user_id,email=user_email)
     playlist.get_playlist(user_id=user_id) #dict
     playlists=SpotifyPlaylist.objects.filter(user_id=user_id)
@@ -63,9 +64,17 @@ def create(request):
 
 
 @login_required
-def random_playlist_create(request):
+def random_playlist_create(request):    
     playlist = Playlist(user_id=request.user.id,email=request.user.email)
+    
     if request.method == "POST":
+        playlists=  SpotifyPlaylist.objects.filter(user_id=request.user.id)
+        all_playlist_tracks ={}
+        for playlist_data in playlists:
+            playlist.playlist_tracks(playlist_id=playlist_data.playlist_id)
+            user_alltracks = SpotifyTracks.objects.filter(playlist = playlist_data)
+            all_playlist_tracks[playlist_data] = user_alltracks
+
         playlist_name = request.POST["playlist_name"]
         #valid
         if playlist_name == "":
