@@ -22,7 +22,7 @@ def home(request):
     user_email= request.user.email #ユニーク
     if user_id == None:
         return HttpResponseRedirect('/user_login')
-        
+
     playlist = Playlist(user_id=user_id,email=user_email)
     playlist.get_playlist(user_id=user_id) #dict
     playlists=SpotifyPlaylist.objects.filter(user_id=user_id)
@@ -56,7 +56,6 @@ def create(request):
                 break
             artist_id = playlist.search_artist_id(artist)
             track_ids = list(playlist.get_artist_top_track(artist_id).values())
-
         return HttpResponseRedirect('/home')
 
     return render(request, "music/create.html",context={
@@ -65,27 +64,39 @@ def create(request):
 
 @login_required
 def random_playlist_create(request):    
-    playlist = Playlist(user_id=request.user.id,email=request.user.email)
+    sp_playlist = Playlist(user_id=request.user.id,email=request.user.email)
+    #全トラック取得
+    playlists=  SpotifyPlaylist.objects.filter(user_id=request.user.id)        
+    all_playlist_tracks ={}
+    for playlist_data in playlists:
+        sp_playlist.playlist_tracks(playlist_id=playlist_data.playlist_id)
     
-    if request.method == "POST":
-        playlists=  SpotifyPlaylist.objects.filter(user_id=request.user.id)
-        all_playlist_tracks ={}
-        for playlist_data in playlists:
-            playlist.playlist_tracks(playlist_id=playlist_data.playlist_id)
-            user_alltracks = SpotifyTracks.objects.filter(playlist = playlist_data)
-            all_playlist_tracks[playlist_data] = user_alltracks
+    # 全曲数カウント
+    track_list=[]
+    number_of_track = 0
+    for i in range(len(playlists)):
+        playlist = SpotifyPlaylist.objects.get(playlist_name=playlists[i].playlist_name)
+        playlist_track_all = playlist.spotifytracks.all()
+        for track in playlist_track_all:
+            track_id = track.track_id
+            track_list.append(track_id)
+    track_list = list(set(track_list))
+    number_of_track = len(track_list)
 
+    if request.method == "POST":
         playlist_name = request.POST["playlist_name"]
+        number_of_track = request.POST["number_of_track"]
         #valid
         if playlist_name == "":
             messages.error(request,'プレイリスト名を入力してください')
             return render(request, "music/user_randomplaylist_create.html")
         #success
-        playlist.user_random_playlist(playlist_name=playlist_name)
+        sp_playlist.user_random_playlist(playlist_name=playlist_name,track_list=track_list,number_of_track=number_of_track)
         return HttpResponseRedirect('/home')
 
     return render(request, "music/user_randomplaylist_create.html",context={
-    })
+        "number_of_track":number_of_track,
+        })
 
 @login_required
 def get_user_favorite_tracks(request):
@@ -94,7 +105,6 @@ def get_user_favorite_tracks(request):
     # favorite_tracks=  SpotifyTracks.playlist(plylist_id=f'{request.user.id}_Favorite')
     favorite_list = SpotifyPlaylist.objects.get(playlist_id=f'{request.user.id}_Favorite').id
     favorite_tracks = SpotifyTracks.objects.filter(playlist=favorite_list)
-    print(favorite_tracks)    
 
     return render(request,'music/favorite_tracks.html',context={
         'favorite_tracks':favorite_tracks,
@@ -124,18 +134,12 @@ def user_alltracks(request):
     all_playlist_tracks ={}
     for playlist_data in playlists:
         playlist.playlist_tracks(playlist_id=playlist_data.playlist_id)
-        user_alltracks = SpotifyTracks.objects.filter(playlist = playlist_data)
-        all_playlist_tracks[playlist_data] = user_alltracks
-    # count= len(all_playlist_tracks.keys())
-    print(all_playlist_tracks.values())
+        playlist_tracks = SpotifyTracks.objects.filter(playlist = playlist_data)
+        all_playlist_tracks[playlist_data] = playlist_tracks
 
     return render(request,'music/user_all_tracks.html',context={
         'user_alltracks':all_playlist_tracks,
     })
-
-def play_track(request,track_id):
-    pass
-
 
 
 def page_not_found(request,exception):

@@ -26,7 +26,7 @@ class SpotifyArtist(models.Model):
         return self.artist_name
 
 class SpotifyTracks(models.Model):
-    playlist =models.ManyToManyField(SpotifyPlaylist)
+    playlist =models.ManyToManyField(SpotifyPlaylist,related_name='spotifytracks',related_query_name='spotifytracks')
     track_id = models.CharField(max_length=255,primary_key=True)
     track_name = models.CharField(max_length=255)
     artist = models.ForeignKey("SpotifyArtist",on_delete=models.CASCADE)
