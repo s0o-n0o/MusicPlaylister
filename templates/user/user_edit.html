@@ -1,9 +1,12 @@
- {% extends "music/index.html" %}
+{% extends "music/index.html" %}
 {% load widget_tweaks%}
 {% block title %}ユーザ情報更新{{ block.super}}{% endblock %}
     <!-- Content here -->
 {% block content %}
         <div class="container-fluid mx-auto">
+            <div class="mt-3 ">
+                <a type="submit" class="ms-1 btn btn-success mx-auto " href="{% url 'user:change_password' %}"> Password Change</a>
+            </div>
             {% if messages %}
                 {% for message in messages %}
                 <div>{{message}}</div>
@@ -31,8 +34,5 @@
                 <button type="submit" class="btn btn-success mx-auto"  style="width: 200px; font-size:13pt;">+ Update</button>
             </div>
             </form>
-            <div class="mt-3 mx-auto">
-                <a type="submit" class="ms-1 btn btn-success mx-auto " href="{% url 'user:change_password' %}"> Password Change</a>
-            </div>
         </div>
 {% endblock %}

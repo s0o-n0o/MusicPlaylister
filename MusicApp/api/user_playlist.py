@@ -3,6 +3,7 @@ from .get_track import GetTrack
 from MusicApp.models import SpotifyArtist,SpotifyPlaylist,SpotifyTracks
 from user.models import Users
 from pprint import pprint
+import random
 
 class Playlist(GetTrack):
     #トークン取得
@@ -12,19 +13,31 @@ class Playlist(GetTrack):
         self.email  = email
 
     #プレイリスト作成
-    def create_playlist(self,artist_list, playlist_name):
-        user_id = self.spotify.me()['id']  # get user_id
-        playlists = self.spotify.user_playlist_create(user_id, playlist_name)  # create playlist
+    def create_playlist(self,artist_list,playlist_name):
+        sp_user_id = self.spotify.me()['id']  # get user_id
+        playlists = self.spotify.user_playlist_create(sp_user_id, playlist_name)  # create playlist
         playlist_id = playlists["id"] #get playlist_id
         for artist in artist_list:
             if artist=='':
                 break
             artist_id = self.search_artist_id(artist)
             track_ids = list(self.get_artist_top_track(artist_id).values())
-            results = self.spotify.user_playlist_add_tracks(user_id, playlist_id, track_ids)
+            results = self.spotify.user_playlist_add_tracks(sp_user_id, playlist_id, track_ids)
+
+#ランダムで曲を選択してプレイリスト作成
+    def user_random_playlist(self,playlist_name,track_list,number_of_track):
+        sp_user_id = self.spotify.me()['id']  # get user_id
+        
+        random_list = random.sample(track_list,int(number_of_track))
+        user_playlist = self.spotify.user_playlist_create(sp_user_id,playlist_name)
+        playlist_id = user_playlist["id"] #get playlist_id
+        results = self.spotify.user_playlist_add_tracks(sp_user_id, playlist_id, random_list)
+        print(random_list)
+
+
 
     #お気に入りの曲取得
-    def get_all_saved_tracks(self,limit_step=50) -> list:
+    def get_all_saved_tracks(self,limit_step=50):
         #favorite_tracksのプレイリストdbを作成
         playlist,created= SpotifyPlaylist.objects.get_or_create(
                                         user = Users.objects.get(email=self.email),
@@ -66,7 +79,7 @@ class Playlist(GetTrack):
 
 
     #全プレイリスト取得
-    def get_playlist(self,user_id) -> dict:
+    def get_playlist(self,user_id):
         def differential_adjustment(current_db_playlists, spotify_playlists):
         # 削除されたプレイリストを更新時にDBから削除する
             delete_list = []
@@ -97,16 +110,12 @@ class Playlist(GetTrack):
                                         )
         differential_adjustment(current_db_playlists=current_playlist_name,spotify_playlists=user_playlists)
         
-        
-
-        
-            
 
     
-            
+        
 
 
-    #指定されたプレイリスト内のトラックを取得
+    #指定されたプレイリスト内のトラックを取得し、DBに追加
     def playlist_tracks(self,playlist_id) -> list:
         playlist_tracks = self.spotify.playlist_items(playlist_id=playlist_id) #spotifyのプレイリストのトラックを取得
         playlist = SpotifyPlaylist.objects.get(playlist_id=playlist_id,user_id=self.user_id) #db内のプレイリストを取得
