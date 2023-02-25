@@ -131,12 +131,13 @@ def get_playlist_tracks(request,id):
 def user_alltracks(request):
     playlist = Playlist(user_id=request.user.id,email=request.user.email)
     playlists=  SpotifyPlaylist.objects.filter(user_id=request.user.id)
-    all_playlist_tracks ={}
+    all_playlist_tracks =[]
     for playlist_data in playlists:
         playlist.playlist_tracks(playlist_id=playlist_data.playlist_id)
         playlist_tracks = SpotifyTracks.objects.filter(playlist = playlist_data)
-        all_playlist_tracks[playlist_data] = playlist_tracks
-
+        for track in playlist_tracks:
+            all_playlist_tracks.append(track)
+    print(all_playlist_tracks)
     return render(request,'music/user_all_tracks.html',context={
         'user_alltracks':all_playlist_tracks,
     })
