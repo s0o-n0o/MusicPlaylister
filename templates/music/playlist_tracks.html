@@ -1,39 +1,43 @@
 {% extends 'music/index.html'%}
 {% block content%}
+<div >
+    <button type="button" class="btn  btn-success  position-absolute  end-0" data-bs-toggle="popover" data-bs-placement="left"  data-bs-content="acoustickness:アコースティック感（0～1）danceability:踊れる曲かどうか（0～1） energy: エネルギッシュさ（0～1） valence:悲観的(0) ～ 楽観的(1) loudness:音量/音圧（dB/-60～0db） tempo:テンポ（40～200bpm）">About Features</button>
+</div>
+
 <h1 class= 'ms-2'>   Your Playlist</h1>
     <table class="table table-hover table-dark ">
-    <thead>
-        <tr>
-        <th scope="col"  style="width: 3%">#</th>
-        <th scope="col" style="width: 20%">track_name</th>
-        <th scope="col" style="width: 90%">artist_name</th>
-        <th scope="col" style="width: 30%">acoustickness</th>
-        <th scope="col" style="width: 30%">danceability</th>
-        <th scope="col" style="width: 30%">energy</th>
-        <th scope="col" style="width: 30%">valence</th>
-        <th scope="col" style="width: 30%">loudness</th>
-        <th scope="col" style="width: 90%">tempo</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% comment %} #[ { name; {id:id,artist:artist}} ,{name:{id:id,artist:artist}} ,...} ] {% endcomment %}
-    {% for track  in playlist_tracks %}
-        {% for name,info in track.items %}
-            <tr class="table-active">
-                <td>{{forloop.counter}}.</td> 
-                <td>{{name}}</td>
-                <td>{{info.artist}}</td>
-                <td>{{info.feature.acousticness}}</td>
-                <td>{{info.feature.danceability}}</td>
-                <td>{{info.feature.energy}}</td>
-                <td>{{info.feature.valence}}</td>
-                <td>{{info.feature.loudness}}</td>
-                <td>{{info.feature.tempo}}</td>
+        <thead>
+            <tr>
+            <th scope="col"  style="width: 3%">#</th>
+            <th scope="col" style="width: 25%">track_name</th>
+            <th scope="col" style="width: 25%">artist_name</th>
+            <th scope="col" style="width: 14%">acoustickness</th>
+            <th scope="col" style="width: 13%">danceability</th>
+            <th scope="col" style="width: 10%">energy</th>
+            <th scope="col" style="width: 17%">valence</th>
+            <th scope="col" style="width: 15%">loudness</th>
+            <th scope="col" style="width: 15%">tempo</th>
             </tr>
-        {% endfor %}
-    {% endfor %}
-    </tbody>
+        </thead>
+        <tbody>
+            {% for track  in playlist_tracks %}
+                    <tr class="table-active">
+                        <td>{{forloop.counter}}.</td> 
+                        <td>{{track.track_name}}</td>
+                        <td>{{track.artist.artist_name}}</td>
+                        <td>{{track.acousticness}}</td>
+                        <td>{{track.danceability}}</td>
+                        <td>{{track.energy}}</td>
+                        <td>{{track.valence}}</td>
+                        <td>{{track.loudness}}</td>
+                        <td>{{track.tempo}}</td>
+                    </tr>
+            {% endfor %}
+        </tbody>
     </table>
-
+<script>
+    const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+    const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+</script>
 
 {% endblock%}

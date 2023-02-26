@@ -1,0 +1,18 @@
+
+div {
+    position: absolute;
+    opacity: 0;
+    text-align: right;
+    margin-top: 20px;
+    right: 160px;
+    top: 175px;
+    animation: moveToLeft 3s ease-in-out forwards;
+}
+
+
+@keyframes moveToLeft {
+    to {
+        opacity: 1;
+    }
+    
+}

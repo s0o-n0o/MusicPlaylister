@@ -1,0 +1,10 @@
+<div>
+{% if user.is_authenticated %}
+<h1>申し訳ございません。もう一度やり直してください。</h1>
+<a type="submit" class="ms-2" href="{% url 'music_app:home' %}">home</a>
+{% else%}
+    セッションが切れました。もう一度ログインしてください。
+    <a type="submit" class="ms-2 btn btn-success" href="{% url 'user:user_login' %}"> Login</a>
+
+{% endif %}
+</div>

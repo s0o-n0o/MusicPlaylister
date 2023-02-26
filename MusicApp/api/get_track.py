@@ -25,27 +25,20 @@ class GetTrack(object):
             tracklist[track['name']] = track['uri']
         return tracklist
 
-    def get_track_feature(self,track_name,track_id):
+    #トラックの特徴量を取得
+    def get_track_feature(self,track_id):
         features = self.spotify.audio_features(tracks=track_id)
-        feature_list = {}
+        # track_analyze = self.spotify.
         for i in range(len(features)):
             feature = {"danceability":features[i]["danceability"], "energy":features[i]["energy"],"valence": features[i]["valence"],
                 "acousticness":features[i]["acousticness"],"loudness":features[i]['loudness'],'tempo':features[i]['tempo']}
-            pprint(f"{track_name}:{feature}")
-            max_feature = max(feature,key=feature.get)
-            feature_list[track_id] = feature
-        return feature_list
-            
+        return feature
 
-            
+    # #userのトップトラックを取得
+    # def get_user_top_tracks(self):
+    #     user_id = self.spotify.me()['id']  # get user_id
+    #     top_tracks = self.spotify.current_user_top_tracks(time_range='medium_term', limit=20, offset=0)
+    #     print(top_tracks)
 
-
-
-
-
-# get_track = GetTrack(username="lcl").search_artist_id("vaundy")
-# print(get_track)
-
-# test
-# search_artist_id("マカロニえんぴつ")
+    #userの最近再生したトラックを取得　
 
