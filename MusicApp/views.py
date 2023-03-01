@@ -23,8 +23,8 @@ def home(request):
     if user_id == None:
         return HttpResponseRedirect('/user_login')
 
-    playlist = Playlist(user_id=user_id,email=user_email)
-    playlist.get_playlist(user_id=user_id) #dict
+    sp_playlist = Playlist(user_id=user_id,email=user_email)
+    sp_playlist.get_playlist(user_id=user_id) 
     playlists=SpotifyPlaylist.objects.filter(user_id=user_id)
     return render(request, 'music/home.html',context={
         "playlists":playlists ,#dict
@@ -32,7 +32,7 @@ def home(request):
 
 @login_required
 def create(request):
-    playlist = Playlist(user_id=request.user.id,email=request.user.email)
+    sp_playlist = Playlist(user_id=request.user.id,email=request.user.email)
     if request.method == "POST":
         artist_list = request.POST.getlist("artist")
         playlist_name = request.POST["playlist_name"]
@@ -50,12 +50,12 @@ def create(request):
             return render(request, "music/create.html")
 
         #success
-        playlist.create_playlist(artist_list=artist_list, playlist_name=playlist_name)
+        sp_playlist.create_playlist(artist_list=artist_list, playlist_name=playlist_name)
         for artist in artist_list:
             if artist=='':
                 break
-            artist_id = playlist.search_artist_id(artist)
-            track_ids = list(playlist.get_artist_top_track(artist_id).values())
+            artist_id = sp_playlist.search_artist_id(artist)
+            track_ids = list(sp_playlist.get_artist_top_track(artist_id).values())
         return HttpResponseRedirect('/home')
 
     return render(request, "music/create.html",context={
@@ -100,8 +100,8 @@ def random_playlist_create(request):
 
 @login_required
 def get_user_favorite_tracks(request):
-    playlist = Playlist(user_id=request.user.id,email=request.user.email)
-    favorite_tracks =playlist.get_all_saved_tracks() #お気に入りの全曲
+    sp_playlist = Playlist(user_id=request.user.id,email=request.user.email)
+    favorite_tracks =sp_playlist.get_all_saved_tracks() #お気に入りの全曲
     # favorite_tracks=  SpotifyTracks.playlist(plylist_id=f'{request.user.id}_Favorite')
     favorite_list = SpotifyPlaylist.objects.get(playlist_id=f'{request.user.id}_Favorite').id
     favorite_tracks = SpotifyTracks.objects.filter(playlist=favorite_list)
@@ -113,9 +113,9 @@ def get_user_favorite_tracks(request):
 
 @login_required
 def get_playlist_tracks(request,id):
-    playlist = Playlist(user_id=request.user.id,email=request.user.email)
+    sp_playlist = Playlist(user_id=request.user.id,email=request.user.email)
     playlist_id = id
-    playlist.playlist_tracks(playlist_id=playlist_id)
+    sp_playlist.playlist_tracks(playlist_id=playlist_id)
     playlist_tracks = SpotifyTracks.objects.all()
     tracks = []
     for track in playlist_tracks:
@@ -129,7 +129,6 @@ def get_playlist_tracks(request,id):
 
 @login_required
 def user_alltracks(request):
-    playlist = Playlist(user_id=request.user.id,email=request.user.email)
     playlists=  SpotifyPlaylist.objects.filter(user_id=request.user.id)
     all_playlist_tracks =[]
     for i in range(len(playlists)):
@@ -137,7 +136,7 @@ def user_alltracks(request):
         playlist_track_all = playlist.spotifytracks.all()
         for track in playlist_track_all:
             all_playlist_tracks.append(track)
-    print(all_playlist_tracks)
+
     return render(request,'music/user_all_tracks.html',context={
         'user_alltracks':all_playlist_tracks,
     })

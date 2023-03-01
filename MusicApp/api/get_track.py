@@ -34,11 +34,4 @@ class GetTrack(object):
                 "acousticness":features[i]["acousticness"],"loudness":features[i]['loudness'],'tempo':features[i]['tempo']}
         return feature
 
-    # #userのトップトラックを取得
-    # def get_user_top_tracks(self):
-    #     user_id = self.spotify.me()['id']  # get user_id
-    #     top_tracks = self.spotify.current_user_top_tracks(time_range='medium_term', limit=20, offset=0)
-    #     print(top_tracks)
-
-    #userの最近再生したトラックを取得　
 

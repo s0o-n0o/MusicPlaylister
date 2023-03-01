@@ -34,8 +34,6 @@ class Playlist(GetTrack):
         results = self.spotify.user_playlist_add_tracks(sp_user_id, playlist_id, random_list)
         print(random_list)
 
-
-
     #お気に入りの曲取得
     def get_all_saved_tracks(self,limit_step=50):
         #favorite_tracksのプレイリストdbを作成
@@ -61,6 +59,7 @@ class Playlist(GetTrack):
                             )
                     else:
                         artist = SpotifyArtist.objects.get(artist_id=response['items'][i]['track']['artists'][0]['id'])
+                        
                     playlist_track_id = response['items'][i]['track']['id'] #id取得
                     playlist_track_feature = self.get_track_feature(playlist_track_id)
 
