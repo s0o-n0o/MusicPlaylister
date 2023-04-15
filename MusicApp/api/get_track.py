@@ -34,4 +34,8 @@ class GetTrack(object):
                 "acousticness":features[i]["acousticness"],"loudness":features[i]['loudness'],'tempo':features[i]['tempo']}
         return feature
 
+    def get_user_recently_played(self):
+        result = self.spotify.current_user_recently_played()
+        print(result)
+        # return result
 

@@ -8,7 +8,7 @@ import random
 class Playlist(GetTrack):
     #トークン取得
     def __init__(self,user_id,email):
-        self.spotify = token(user_email=email,scope="playlist-modify-public user-library-read playlist-modify-private playlist-read-private playlist-read-collaborative")
+        self.spotify = token(user_email=email,scope="playlist-modify-public user-library-read playlist-modify-private playlist-read-private playlist-read-collaborative user-read-recently-played user-top-read")
         self.user_id = user_id
         self.email  = email
 
@@ -147,3 +147,13 @@ class Playlist(GetTrack):
                         tempo=playlist_track_feature['tempo'],
                         )
                     track.playlist.add(playlist)
+
+    def get_user_recently_played(self,limit_step=50):
+        # result = self.spotify.current_user_recently_played()
+        for offset in range(0, 1000,limit_step):
+            result = self.spotify.current_user_top_tracks(limit=limit_step,offset=offset)
+            if len(result) == 0:
+                break
+            for i in range(len(result['items'])):
+                print(result['items'][i]['name'])
+        # return result

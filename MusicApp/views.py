@@ -25,6 +25,7 @@ def home(request):
 
     sp_playlist = Playlist(user_id=user_id,email=user_email)
     sp_playlist.get_playlist(user_id=user_id) 
+    sp_playlist.get_user_recently_played()
     playlists=SpotifyPlaylist.objects.filter(user_id=user_id)
     return render(request, 'music/home.html',context={
         "playlists":playlists ,#dict
